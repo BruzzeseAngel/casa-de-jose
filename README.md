@@ -4,60 +4,61 @@ Proyecto de Título de Ingeniería en Informática (IPLACEX, 2026).
 
 ## Descripción
 
-Aplicación web orientada al Hostal La Casa de José, ubicado en San Pedro de Atacama, Chile. El objetivo es disponer de un canal propio para mostrar habitaciones y servicios, consultar tarifas directas y gestionar solicitudes de alojamiento desde una interfaz multilingüe.
+Aplicación web para el Hostal La Casa de José, ubicado en San Pedro de Atacama, Chile. El objetivo es ofrecer un canal propio de información y cotizaciones directas, complementario a Booking.
 
-El sistema está concebido como un **canal complementario a Booking**. El envío de una solicitud no implica una reserva confirmada: la disponibilidad y la aceptación final corresponden al administrador del establecimiento.
+Una solicitud de alojamiento no equivale a una reserva confirmada: la disponibilidad y la aceptación final quedan sujetas a revisión del establecimiento.
 
-## Estado del proyecto
+## Estado de desarrollo
 
-**En desarrollo.** Esta primera versión contiene la estructura básica de una aplicación React, una página de inicio provisional y estilos CSS iniciales. Las funciones de cotización, autenticación y administración todavía no forman parte de esta versión publicada.
+**Etapa 2 — Secciones públicas del sitio.** La aplicación cuenta con una página de inicio, navegación, catálogo de seis categorías de habitaciones, fichas informativas y sección de servicios. La navegación y los textos principales están disponibles en español, inglés, portugués, alemán y francés.
 
-## Tecnologías utilizadas en esta etapa
+**Datos ilustrativos:** las capacidades, superficies y descripciones de la demostración se utilizan únicamente para visualizar la interfaz; no deben interpretarse como información comercial verificada. Las fotografías reales, tarifas, cotizaciones, solicitudes y autenticación todavía no están conectadas en esta etapa.
 
-- **JavaScript**: lenguaje de programación.
-- **React**: biblioteca para construir la interfaz mediante componentes.
-- **Vite**: entorno de desarrollo y herramienta de compilación.
-- **CSS**: estilos de la interfaz.
+## Tecnologías incorporadas
 
-## Requisitos
+- JavaScript, React y Vite para la interfaz.
+- React Router para las rutas públicas.
+- CSS propio adaptable a distintas pantallas.
+- Context API de React para seleccionar el idioma de la interfaz.
+- Datos locales de demostración, temporalmente sin conexión a base de datos.
 
-- Node.js 20.19 o superior.
-- npm.
+## Ejecutar localmente
 
-## Instalación y ejecución local
+Requiere Node.js 20.19 o superior y npm.
 
 ```bash
 npm ci
 npm run dev
 ```
 
-La terminal mostrará la dirección local donde abrir la aplicación.
+Abrir la dirección local que indique Vite (generalmente `http://127.0.0.1:5173`).
 
-## Compilación
+## Compilar
 
 ```bash
 npm run build
 npm run preview
 ```
 
-`build` genera los archivos para publicación en `dist/`, carpeta que no se versiona en Git.
+La carpeta `dist/` es generada automáticamente y no se sube al repositorio.
 
-## Estructura inicial
+## Estructura principal
 
 ```text
-├── index.html
-├── package.json
-├── vite.config.js
-├── src/
-│   ├── main.jsx
-│   ├── App.jsx
-│   └── styles.css
-└── README.md
+src/
+├── components/        # Navegación, tarjetas y galería
+├── context/           # Idiomas de la interfaz
+├── lib/               # Datos de demostración y traducciones
+├── pages/             # Inicio, habitaciones, detalle y servicios
+├── App.jsx            # Rutas públicas
+├── main.jsx           # Punto de entrada
+└── styles.css         # Estilos adaptables
+public/flags/          # Iconos de idioma en formato SVG
 ```
 
 ## Alcance previsto
 
-La plataforma incorporará un catálogo de habitaciones, cotizaciones, formularios de solicitud, acceso de clientes, un panel administrativo, tarifas y contenido en cinco idiomas. El desarrollo no considera pagos en línea ni sincronización automática de disponibilidad con Booking.
+Se integrarán progresivamente los procesos de cotización, solicitudes, acceso de clientes y un panel administrativo con CRUD de habitaciones, tarifas y solicitudes. No se contemplan pagos en línea ni sincronización automática con Booking.
 
 ## Autor
 
