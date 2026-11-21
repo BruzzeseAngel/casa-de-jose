@@ -12,7 +12,7 @@ function cargar() {
   catch { return { solicitudes: [], error: true }; }
 }
 
-// Lista de pruebas de esta pestaña: no son solicitudes reales de un usuario.
+// Solo demostración pública: NO está asociada a cuentas de Firebase.
 export default function MyRequests() {
   const { lang } = useLanguage();
   const c = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;

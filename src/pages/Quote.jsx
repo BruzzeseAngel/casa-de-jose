@@ -206,7 +206,7 @@ export default function Quote() {
           {guardado && <p className="notice success" role="status">{d.saved}</p>}
           <p className="muted small">{q.taxes}</p>
           <button type="submit" className="btn primary block" disabled={Boolean(guardado)}>{d.save}</button>
-          {guardado && <Link to="/mis-solicitudes" className="btn secondary block">{d.view}</Link>}
+          {guardado && <Link to="/solicitudes-demo" className="btn secondary block">{d.view}</Link>}
           <p className="muted small demo-note">{q.privacy}</p>
           <Link to="/habitaciones" className="text-link">← {t('viewRoom')}</Link>
         </aside>

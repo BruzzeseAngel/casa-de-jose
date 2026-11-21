@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
+import { AUTH_COPY } from '../lib/authCopy';
+import { useAuth } from '../context/AuthContext';
+import { DEMO } from '../lib/firebase';
 
 // Navegación pública y selector de idiomas a partir del diseño original.
 const LANGUAGES = [
@@ -14,11 +17,15 @@ const LANGUAGES = [
 
 export default function Layout() {
   const { t, lang, setLang } = useLanguage();
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const languageMenu = useRef(null);
   const current = LANGUAGES.find(item => item.code === lang) ?? LANGUAGES[0];
   const demoCopy = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
-  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], ['/acceso', demoCopy.link]];
+  const authCopy = AUTH_COPY[lang] ?? AUTH_COPY.es;
+  const accountLink = DEMO ? ['/solicitudes-demo', demoCopy.link]
+    : user ? ['/mis-solicitudes', authCopy.account] : ['/acceso', authCopy.signIn];
+  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], accountLink];
 
   useEffect(() => {
     const closeOutside = event => {

@@ -97,3 +97,6 @@
 .demo-request-delete{margin-top:18px}
 .request-card .between{flex-wrap:wrap}
 @media(max-width:760px){.main-nav{max-height:70vh;overflow-y:auto}}
+
+/* Versión 0.5: controles del acceso de clientes. */
+.auth-form{display:grid;gap:16px}.auth-text-button{display:block;width:100%;margin-top:14px;background:none;border:0;padding:5px;color:var(--forest);text-decoration:underline;font-size:.88rem;cursor:pointer}.auth-text-button:disabled{opacity:.5;cursor:wait}.client-panel{max-width:730px}.client-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
