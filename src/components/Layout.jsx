@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
 
 // Navegación pública y selector de idiomas a partir del diseño original.
 const LANGUAGES = [
@@ -16,7 +17,8 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const languageMenu = useRef(null);
   const current = LANGUAGES.find(item => item.code === lang) ?? LANGUAGES[0];
-  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')]];
+  const demoCopy = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
+  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], ['/acceso', demoCopy.link]];
 
   useEffect(() => {
     const closeOutside = event => {

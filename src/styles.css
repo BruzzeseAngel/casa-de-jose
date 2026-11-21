@@ -90,3 +90,10 @@
 .quote-tax-breakdown strong{color:var(--forest)}
 .quote-summary>.text-link{margin-top:13px}
 @media(max-width:620px){.quote-category-grid{grid-template-columns:1fr}.quote-category-choice{padding:13px}}
+
+/* Etapa 04: solicitudes ficticias y acceso informativo, sin autenticación. */
+.demo-requests-actions{margin:18px 0 27px}
+.demo-request-rooms{padding-left:20px;color:var(--muted);font-size:.86rem;line-height:1.7;min-height:40px}
+.demo-request-delete{margin-top:18px}
+.request-card .between{flex-wrap:wrap}
+@media(max-width:760px){.main-nav{max-height:70vh;overflow-y:auto}}

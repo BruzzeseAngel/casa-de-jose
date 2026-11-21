@@ -4,15 +4,18 @@ import { useLanguage } from '../context/LanguageContext';
 import { nombreHabitacion } from '../lib/contentTranslations';
 import { DEMO_ROOMS, DEMO_RATES } from '../lib/demo';
 import { QUOTE_COPY } from '../lib/quoteCopy';
+import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
+import { crearSolicitudDemo, guardarSolicitudDemo } from '../lib/demoRequests.mjs';
 import { formatoCLP, hoyChile, precioNetoPorNoche, vistaCotizacion } from '../lib/quote.mjs';
 
 const habitaciones = DEMO_ROOMS.filter(habitacion => habitacion.activa);
 
-// Formulario local de prueba: no realiza solicitudes HTTP ni guarda datos.
+// Formulario local de prueba: no realiza solicitudes HTTP ni guarda datos personales.
 // La confirmación y el recálculo autoritativo corresponderán al backend futuro.
 export default function Quote() {
   const { t, lang } = useLanguage();
   const q = QUOTE_COPY[lang] ?? QUOTE_COPY.es;
+  const d = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
   const [searchParams] = useSearchParams();
   const habitacionSolicitada = searchParams.get('habitacion');
   const [entrada, setEntrada] = useState('');
@@ -22,7 +25,7 @@ export default function Quote() {
   const [contacto, setContacto] = useState({ nombre: '', email: '', telefono: '' });
   const [comentarios, setComentarios] = useState('');
   const [estacionamiento, setEstacionamiento] = useState(false);
-  const [validado, setValidado] = useState(false);
+  const [guardado, setGuardado] = useState('');
   const [error, setError] = useState('');
 
   // Permite llegar desde el botón Cotizar de una ficha sin duplicar categorías.
@@ -43,30 +46,34 @@ export default function Quote() {
   function agregar(id) {
     setSeleccion(actual => actual.some(s => s.habitacionId === id)
       ? actual : [...actual, { habitacionId: id, cantidad: 1 }]);
-    setValidado(false);
+    setGuardado('');
     setError('');
   }
 
   function cambiarCantidad(id, cantidad) {
     setSeleccion(actual => actual.map(s => s.habitacionId === id
       ? { ...s, cantidad: Number(cantidad) } : s));
-    setValidado(false);
+    setGuardado('');
   }
 
   function quitar(id) {
     setSeleccion(actual => actual.filter(s => s.habitacionId !== id));
-    setValidado(false);
+    setGuardado('');
   }
 
   function comprobarFormulario(evento) {
-    evento.preventDefault(); // No existe un endpoint de envío en esta etapa.
-    setValidado(false);
-    if (!valido) {
-      setError(q.incomplete);
-      return;
+    evento.preventDefault(); // No se envía ninguna solicitud HTTP.
+    if (guardado) return; // Evita duplicados al volver a pulsar el botón.
+    if (!valido) { setError(q.incomplete); return; }
+    try {
+      // Nunca pasamos el objeto contacto, ni los comentarios, al almacenamiento.
+      const solicitud = crearSolicitudDemo({ entrada, salida, huespedes, vista });
+      const idGuardado = guardarSolicitudDemo(sessionStorage, solicitud);
+      setGuardado(idGuardado);
+      setError('');
+    } catch (e) {
+      setError(d.saveError);
     }
-    setError('');
-    setValidado(true); // Solo confirma validación en memoria del navegador.
   }
 
   return (
@@ -87,16 +94,16 @@ export default function Quote() {
               <input type="date" required min={hoy} value={entrada} onChange={e => {
                 setEntrada(e.target.value);
                 if (salida && salida <= e.target.value) setSalida('');
-                setValidado(false);
+                setGuardado('');
               }} />
             </label>
             <label className="field">{t('checkout')}
               <input type="date" required min={entrada || hoy} value={salida}
-                onChange={e => { setSalida(e.target.value); setValidado(false); }} />
+                onChange={e => { setSalida(e.target.value); setGuardado(''); }} />
             </label>
             <label className="field">{t('guests')}
               <input type="number" required min="1" max="100" step="1" value={huespedes}
-                onChange={e => { setHuespedes(Number(e.target.value)); setValidado(false); }} />
+                onChange={e => { setHuespedes(Number(e.target.value)); setGuardado(''); }} />
             </label>
           </div>
           <hr className="soft-rule" />
@@ -145,24 +152,24 @@ export default function Quote() {
           <div className="form-grid">
             <label className="field">{t('name')}
               <input type="text" required minLength="3" maxLength="80" autoComplete="off" value={contacto.nombre}
-                onChange={e => { setContacto({ ...contacto, nombre: e.target.value }); setValidado(false); }} />
+                onChange={e => { setContacto({ ...contacto, nombre: e.target.value }); setGuardado(''); }} />
             </label>
             <label className="field">{t('email')}
               <input type="email" required maxLength="150" autoComplete="off" value={contacto.email}
-                onChange={e => { setContacto({ ...contacto, email: e.target.value }); setValidado(false); }} />
+                onChange={e => { setContacto({ ...contacto, email: e.target.value }); setGuardado(''); }} />
             </label>
             <label className="field">{t('phone')}
               <input type="tel" autoComplete="off" maxLength="30" value={contacto.telefono}
-                onChange={e => { setContacto({ ...contacto, telefono: e.target.value }); setValidado(false); }} />
+                onChange={e => { setContacto({ ...contacto, telefono: e.target.value }); setGuardado(''); }} />
             </label>
             <label className="field">{q.notes}
               <textarea rows="3" maxLength="500" placeholder={q.notesPlaceholder} value={comentarios}
-                onChange={e => { setComentarios(e.target.value); setValidado(false); }} />
+                onChange={e => { setComentarios(e.target.value); setGuardado(''); }} />
             </label>
           </div>
           <label className="checkbox-line">
             <input type="checkbox" checked={estacionamiento}
-              onChange={e => { setEstacionamiento(e.target.checked); setValidado(false); }} />
+              onChange={e => { setEstacionamiento(e.target.checked); setGuardado(''); }} />
             <span>{t('parking')}</span>
           </label>
         </section>
@@ -196,9 +203,10 @@ export default function Quote() {
           {vista && !capacidadSuficiente &&
             <p className="notice warning">{t('invalidGuests')}</p>}
           {error && <p className="notice error" role="alert">{error}</p>}
-          {validado && <p className="notice success" role="status">{q.validated}</p>}
+          {guardado && <p className="notice success" role="status">{d.saved}</p>}
           <p className="muted small">{q.taxes}</p>
-          <button type="submit" className="btn primary block">{q.validate}</button>
+          <button type="submit" className="btn primary block" disabled={Boolean(guardado)}>{d.save}</button>
+          {guardado && <Link to="/mis-solicitudes" className="btn secondary block">{d.view}</Link>}
           <p className="muted small demo-note">{q.privacy}</p>
           <Link to="/habitaciones" className="text-link">← {t('viewRoom')}</Link>
         </aside>
