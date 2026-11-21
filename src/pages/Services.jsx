@@ -1,17 +1,20 @@
 import { useLanguage } from '../context/LanguageContext';
 import { traducirTexto } from '../lib/contentTranslations';
-import { DEMO_SERVICES } from '../lib/demo';
+import { useCatalog } from '../context/CatalogContext';
 import PhotoGallery from '../components/PhotoGallery';
 
 const symbols = ['♒', '◇', '☕', '♨', '✺', '✧'];
 
 export default function Services() {
   const { t, lang } = useLanguage();
-  const items = DEMO_SERVICES.filter(service => service.activo);
+  const { services: items, loading, error } = useCatalog();
   return (
     <div className="container section">
       <div className="page-title"><p className="overline">LA CASA DE JOSÉ</p>
         <h1>{t('serviceSection')}</h1><p>{t('serviceSub')}</p></div>
+      {loading && <p role="status">{t('loading')}</p>}
+      {error && <p role="alert" className="notice error">{t(error)}</p>}
+      {!loading && !error && items.length === 0 && <p className="notice soft">{t('notFound')}</p>}
       <div className="services-grid">
         {items.map((item, i) => (
           <article className="service-card" key={item.id}>

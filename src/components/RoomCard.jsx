@@ -10,13 +10,13 @@ export default function RoomCard({ habitacion }) {
   return (
     <article className="room-card">
       <PhotoGallery fotos={habitacion.fotos} alt={nombre}
-        className={`room-photo photo-variant-${habitacion.index % 6}`}>
+        className={`room-photo photo-variant-${(habitacion.index ?? 0) % 6}`}>
         <span className="photo-tag">{t('capacity')}: {habitacion.capacidad}</span>
       </PhotoGallery>
       <div className="room-card-body">
         <h3>{nombre}</h3>
         <p className="room-details">{habitacion.tamanoM2} m² · {habitacion.stockTotal} {t('units').toLowerCase()}</p>
-        <p className="amenity-teaser">{traducirLista(habitacion.comodidades.slice(0, 3), lang).join(' · ')}</p>
+        <p className="amenity-teaser">{traducirLista((habitacion.comodidades ?? []).slice(0, 3), lang).join(' · ')}</p>
         <div className="room-card-links">
           <Link className="text-link" to={`/habitaciones/${encodeURIComponent(habitacion.id)}`}>
             {t('roomDetails')} →

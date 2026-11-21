@@ -4,91 +4,116 @@ Proyecto de Título de Ingeniería en Informática — IPLACEX (2026).
 
 ## Descripción
 
-Aplicación web del Hostal La Casa de José, San Pedro de Atacama, Chile. Permite explorar alojamientos y preparar cotizaciones de demostración como alternativa de contacto directo complementaria a Booking.
+Sitio web del Hostal La Casa de José, San Pedro de Atacama. Muestra alojamiento y servicios, permite explorar tarifas orientativas y preparar solicitudes de prueba. Es un canal complementario a Booking. **Una solicitud no confirma una reserva: la disponibilidad y aceptación final corresponden al hostal.**
 
-**Una solicitud no constituye una reserva confirmada.** Toda disponibilidad y aceptación final queda a cargo del administrador del hostal.
+## Estado — integración progresiva v0.6.0
 
-## Estado — versión 0.5.0 (integración progresiva)
-
-Esta etapa integra el **módulo de Firebase Authentication para clientes** (opcional según la configuración), conservando el catálogo y las solicitudes de prueba de etapas anteriores. No es todavía la plataforma completa desplegada.
+Esta entrega incorpora **lectura pública de Firestore** para el catálogo. Se conserva el acceso de clientes con Firebase Authentication incorporado en v0.5 y se mantiene el formulario de solicitudes como **demostración local**.
 
 ### Funcionalidades disponibles
 
-- Portada, catálogo de seis categorías, fichas de habitación y servicios.
-- Interfaz con español, inglés, portugués, alemán y francés.
-- Cotizador ficticio con noches, capacidad, selección de categorías, subtotal neto e IVA del 19 %.
-- Guardado y eliminación **local** de solicitudes ficticias en `sessionStorage`, sin datos de contacto.
-- **Firebase Authentication** cuando se configura: crear cuenta, iniciar sesión, cerrar sesión, restaurar contraseña y mantener la sesión.
-- Área de cliente `/mis-solicitudes` protegida por sesión **sin mostrar todavía solicitudes reales**.
-- Solicitudes ficticias separadas en `/solicitudes-demo`, sin vinculación con cuentas reales.
-- Pruebas automatizadas de cálculo, almacenamiento demostrativo y validación de configuración.
+- Portada, habitaciones, detalles, servicios e instalaciones en cinco idiomas: ES, EN, PT, DE, FR.
+- Configuración de Firebase Authentication para registro, ingreso, cierre de sesión y recuperación de contraseña (requiere modo Firebase).
+- Lectura de documentos activos en las colecciones `/habitaciones` y `/servicios`.
+- Lectura de tarifas desde `/habitaciones/{habitacionId}/tarifas`; las tarifas se asocian por el **ID real** de cada habitación.
+- La portada, el listado, los detalles, los servicios y la vista previa del cotizador usan una fuente de catálogo compartida (`CatalogContext`).
+- Control de carga, resultados vacíos y fallos de conexión/permisos para que no se muestre una pantalla en blanco.
+- Cotizador con selección de fechas, huéspedes, categorías, stock, subtotal neto, IVA y total **orientativo**.
+- Solicitudes de **prueba local** que solo conservan el resumen de una cotización en `sessionStorage`; no transmiten ni guardan datos personales.
+- Pruebas automatizadas de normalización de datos, cotizaciones, configuración de Firebase y almacenamiento demostrativo.
 
-### Lo que aún no está integrado
+### Dos modos de funcionamiento
 
-- Firestore y persistencia de solicitudes reales.
-- Perfiles guardados en `usuarios` y custom claims de administración.
-- Panel administrativo, CRUD de habitaciones, servicios, tarifas y solicitudes.
-- Fotos reales con Storage, Cloud Functions, notificaciones, reglas de seguridad de datos y despliegue.
-- Sincronización de disponibilidad con Booking y pagos en línea (fuera del alcance del proyecto).
+**Demo (predeterminado)**: `VITE_DEMO_MODE=true` o variable sin definir. Se muestran datos y tarifas **ficticias**, sin comunicación con Firestore. Las solicitudes siguen siendo simuladas; Authentication real está desactivado.
 
-**Seguridad:** la protección de rutas con React no sustituye reglas de seguridad de Firestore. No se activan operaciones reales de datos hasta integrar las reglas de acceso y las funciones del servidor. Las tarifas y capacidades mostradas son ficticias, no precios oficiales. La recuperación de contraseña requiere un proveedor Firebase configurado. Usar cuentas de prueba.
+**Firebase**: `VITE_DEMO_MODE=false` + cuatro parámetros públicos de Firebase definidos. Se habilita Authentication y se consulta Firestore para el **catálogo público**. No se rellenan fallos o colecciones vacías con datos ficticios: si las reglas no permiten lectura, se muestra un aviso. Las tarifas proceden de Firestore y se usan solo para una **vista previa orientativa**, sin reservas ni pagos reales.
+
+**Importante:** esta etapa no implementa aún persistencia de solicitudes en Firestore, perfiles de `/usuarios`, funciones servidor para cotizar de forma autoritativa ni CRUD administrativos. Acceder a `/mis-solicitudes` solo demuestra protección de ruta, no obtiene solicitudes reales. Las solicitudes ficticias se consultan en `/solicitudes-demo` y nunca se asocian a usuarios reales.
+
+## Modelo Firestore consultado (solo lectura)
+
+```text
+/habitaciones/{habitacionId}
+  nombre: string
+  capacidad: number
+  stockTotal: number
+  tamanoM2: number
+  activa: boolean
+  camas: string[]
+  comodidades: string[]
+  fotos: string[]
+  /tarifas/{tarifaId}
+    precioDirecto: number
+    vigente: boolean
+    fechaInicio: timestamp | fecha ISO
+    tipoPrecio: "neto" | "iva-incluido" (opcional para registros antiguos)
+
+/servicios/{servicioId}
+  nombre, categoria, modalidad, descripcion: string
+  activo: boolean
+  fotos: string[] (opcional)
+```
+
+Las tarifas `tipoPrecio=neto` agregan IVA del 19 % en el cálculo de muestra; registros antiguos sin `tipoPrecio` se interpretan como precio **con IVA incluido**. El sistema no determina automáticamente exenciones tributarias. El resultado no confirma precios ni disponibilidad.
+
+Las consultas públicas utilizan los filtros `activa == true` y `activo == true`. Asegura que las reglas de seguridad publicadas en tu proyecto permitan leer **solo documentos activos y sus tarifas**, mientras que la escritura se restringe a administradores o al backend según corresponda. **No cambies las reglas por `allow read, write: if true`**. Este parche no incluye ni despliega reglas de Firestore, ni modifica datos existentes.
 
 ## Requisitos
 
-- Node.js **20.19+** y npm.
-- Para pruebas sin servidor, no hace falta configurar Firebase.
-- Para probar autenticación real, un proyecto Firebase habilitado con el método **Email/Password** y el dominio autorizado.
+- Node.js 20.19 o superior; npm.
+- Para modo Firebase: proyecto Firebase existente, Firestore configurado, reglas de lectura pública seguras y Authentication Email/Password activado.
+- No se requiere Firebase para ejecutar la demostración.
 
-## Instalación rápida (demostración)
+## Instalación y pruebas
 
 ```bash
 npm ci
 npm test
+npm run build
 npm run dev
 ```
 
-Por defecto se utiliza `VITE_DEMO_MODE=true` (o no se define la variable). No se crea ninguna cuenta de Firebase. Visita `/solicitudes-demo` para ver pruebas locales.
+Prueba la navegación en `http://127.0.0.1:5173`. Si ejecutas `npm run preview`, revisa también el formulario.
 
-## Activar Firebase Authentication (opcional)
+### Activar lectura real (opcional)
 
-1. Crea el archivo `.env` copiando `.env.example` (no publiques `.env`).
-2. Completa `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` y `VITE_FIREBASE_APP_ID` con la **configuración web** de Firebase.
-3. Cambia `VITE_DEMO_MODE=false`.
-4. En Firebase Console > Authentication > Sign-in method, habilita **Correo electrónico/Contraseña**.
-5. Revisa **Authorized domains** y agrega tu dominio de pruebas si hace falta.
-6. Reinicia Vite mediante `npm run dev` y entra a `/acceso`.
-7. Usa correos de prueba. La creación de usuarios en Firebase Authentication **sí es real** cuando este modo está activado; la gestión de solicitudes todavía no.
+1. Copia `.env.example` a `.env` en la carpeta raíz.
+2. Define `VITE_DEMO_MODE=false` y los parámetros `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_PROJECT_ID` y `VITE_FIREBASE_APP_ID` (configuración **web** de Firebase, nunca secretos de servidor).
+3. Reinicia `npm run dev` después de modificar las variables.
+4. Confirma la existencia de documentos activos y tarifas vigentes en Firestore; revisa las reglas de acceso antes de probar.
+5. Visita `/habitaciones`, `/habitaciones/{id}`, `/servicios` y `/cotizar`. Comprueba las tarjetas y las tarifas. **No crees solicitudes reales en esta etapa**.
 
-Las variables públicas `VITE_*` llegan al navegador: **nunca** coloques allí claves de cuenta de servicio, tokens privados, contraseñas, secretos de correo ni APIs restringidas. Aplica restricciones de la clave web según la documentación de Firebase y controla el uso del proyecto.
+> Los parámetros `VITE_*` se incorporan al código cliente. No pongas contraseñas, tokens privados, credenciales Admin SDK ni secretos de correo. `.env` está ignorado por Git.
 
-## Comprobación
-
-```bash
-npm test
-npm run build
-npm run preview
-```
-
-Comprobaciones recomendadas: modo demostración sin cuenta, formulario de cotización, navegación de 5 idiomas; con Firebase activado, registrar cuenta de prueba, iniciar sesión, refrescar, salir, intentar ruta protegida sin sesión, recuperar contraseña. La compilación con Vite debe realizarse localmente.
-
-## Estructura principal
+## Archivos principales
 
 ```text
 src/
-  context/        LanguageContext.jsx, AuthContext.jsx
-  components/     Layout.jsx, ProtectedRoute.jsx, RoomCard.jsx, PhotoGallery.jsx
-  lib/            firebase.js, authConfig.mjs, authCopy.js, demo*.js, quote.mjs
-  pages/          Home.jsx, Rooms.jsx, RoomDetail.jsx, Services.jsx,
-                  Quote.jsx, Access.jsx, ClientArea.jsx, MyRequests.jsx
-  App.jsx         Rutas públicas, pruebas y rutas protegidas
-  main.jsx        Proveedores y entrada React
-tests/              Pruebas de lógica pura
-.env.example        Plantilla sin credenciales
+  context/
+    AuthContext.jsx              # Sesión Firebase (v0.5)
+    CatalogContext.jsx           # Carga y comparte catálogo público (v0.6)
+    LanguageContext.jsx          # Traducciones
+  lib/
+    firebase.js                  # Inicializa Authentication y Firestore
+    catalogFirestore.js         # Consultas getDocs() solo de lectura
+    catalogModel.mjs            # Transformaciones puras, testeables
+    quote.mjs                   # Cálculo de cotizaciones, sin backend
+    demo.js                     # Catálogo ficticio para modo demostración
+  pages/
+    Home.jsx, Rooms.jsx, RoomDetail.jsx, Services.jsx, Quote.jsx
+  main.jsx                      # Proveedores React
+  App.jsx                       # Rutas públicas y protegidas
+
+tests/catalogModel.test.mjs     # Pruebas de normalización
 ```
 
-## Desarrollo del proyecto
+## Qué falta integrar
 
-El desarrollo de la aplicación y su incorporación a este repositorio corresponden a procesos distintos: los módulos se están integrando y documentando aquí por etapas funcionales. Las fechas de los commits representan publicaciones de integración, no necesariamente la fecha original de programación de cada módulo.
+Administración y los tres CRUD de negocio, almacenamiento de fotografías con Firebase Storage, tarifas editables en panel admin, solicitudes persistentes con Cloud Functions, perfiles y roles administrativos, historial, notificaciones, reglas auditadas y despliegue final. No hay pagos en línea ni disponibilidad sincronizada automáticamente con Booking (fuera del alcance definido).
+
+## Historial de integración
+
+El proyecto existía antes de su incorporación a este repositorio. Los commits documentan **la integración y verificación progresiva de módulos**, no una cronología de autoría o fecha original de programación.
 
 ## Autor / proyecto académico
 

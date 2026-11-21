@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import { DEMO_ROOMS } from '../lib/demo';
+import { useCatalog } from '../context/CatalogContext';
 import RoomCard from '../components/RoomCard';
 
 export default function Home() {
   const { t } = useLanguage();
+  const { rooms, loading, error } = useCatalog();
   return (
     <>
       <section className="hero">
@@ -32,8 +33,11 @@ export default function Home() {
           <div><p className="overline">LA CASA DE JOSÉ</p><h2>{t('roomSection')}</h2><p>{t('roomSub')}</p></div>
           <Link className="text-link" to="/habitaciones">{t('viewRoom')} →</Link>
         </div>
+        {loading && <p role="status">{t('loading')}</p>}
+        {error && <p role="alert" className="notice error">{t(error)}</p>}
+        {!loading && !error && rooms.length === 0 && <p className="notice soft">{t('notFound')}</p>}
         <div className="room-grid">
-          {DEMO_ROOMS.filter(room => room.activa).slice(0, 3).map(room => (
+          {rooms.slice(0, 3).map(room => (
             <RoomCard key={room.id} habitacion={room} />
           ))}
         </div>

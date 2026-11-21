@@ -2,18 +2,19 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { nombreHabitacion } from '../lib/contentTranslations';
-import { DEMO_ROOMS, DEMO_RATES } from '../lib/demo';
+import { useCatalog } from '../context/CatalogContext';
+import { DEMO } from '../lib/firebase';
 import { QUOTE_COPY } from '../lib/quoteCopy';
 import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
 import { crearSolicitudDemo, guardarSolicitudDemo } from '../lib/demoRequests.mjs';
-import { formatoCLP, hoyChile, precioNetoPorNoche, vistaCotizacion } from '../lib/quote.mjs';
+import { formatoCLP, hoyChile, precioNetoPorNoche, seleccionarTarifa, vistaCotizacion } from '../lib/quote.mjs';
 
-const habitaciones = DEMO_ROOMS.filter(habitacion => habitacion.activa);
 
 // Formulario local de prueba: no realiza solicitudes HTTP ni guarda datos personales.
 // La confirmación y el recálculo autoritativo corresponderán al backend futuro.
 export default function Quote() {
   const { t, lang } = useLanguage();
+  const { rooms: habitaciones, rates: tarifasPorHabitacion, loading, error: catalogError, errorTarifas } = useCatalog();
   const q = QUOTE_COPY[lang] ?? QUOTE_COPY.es;
   const d = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
   const [searchParams] = useSearchParams();
@@ -33,15 +34,21 @@ export default function Quote() {
     if (!habitacionSolicitada || !habitaciones.some(h => h.id === habitacionSolicitada)) return;
     setSeleccion(actual => actual.some(s => s.habitacionId === habitacionSolicitada)
       ? actual : [...actual, { habitacionId: habitacionSolicitada, cantidad: 1 }]);
-  }, [habitacionSolicitada]);
+  }, [habitacionSolicitada, habitaciones]);
+
+  useEffect(() => {
+    if (!loading && !catalogError) {
+      setSeleccion(actual => actual.filter(s => habitaciones.some(h => h.id === s.habitacionId)));
+    }
+  }, [loading, catalogError, habitaciones]);
 
   const hoy = hoyChile();
   const vista = useMemo(() => vistaCotizacion({
-    entrada, salida, seleccion, habitaciones, tarifasPorHabitacion: DEMO_RATES,
-  }), [entrada, salida, seleccion]);
+    entrada, salida, seleccion, habitaciones, tarifasPorHabitacion,
+  }), [entrada, salida, seleccion, habitaciones, tarifasPorHabitacion]);
   const capacidadSuficiente = Boolean(vista) && Number.isInteger(huespedes)
     && huespedes > 0 && huespedes <= vista.capacidad;
-  const valido = Boolean(vista) && entrada >= hoy && capacidadSuficiente;
+  const valido = Boolean(vista) && entrada >= hoy && capacidadSuficiente && !loading && !catalogError;
 
   function agregar(id) {
     setSeleccion(actual => actual.some(s => s.habitacionId === id)
@@ -83,7 +90,10 @@ export default function Quote() {
         <h1>{t('quoteTitle')}</h1>
         <p>{t('quoteSub')}</p>
       </div>
-      <p className="notice warning" role="note">{q.disclaimer}</p>
+      <p className="notice warning" role="note">{DEMO ? q.disclaimer : t('catalogLiveQuoteNotice')}</p>
+      {loading && <p role="status">{t('loading')}</p>}
+      {catalogError && <p className="notice error" role="alert">{t(catalogError)}</p>}
+      {errorTarifas && <p className="notice warning" role="alert">{t('catalogRatesWarning')}</p>}
       <form className="quote-layout" onSubmit={comprobarFormulario}>
         <section className="form-panel quote-main">
           <div className="group-heading"><span className="step">01</span><div>
@@ -113,12 +123,17 @@ export default function Quote() {
           <div className="quote-category-grid" role="group" aria-label={t('addRoom')}>
             {habitaciones.map(h => {
               const agregada = seleccion.some(s => s.habitacionId === h.id);
-              const tarifa = DEMO_RATES[h.id]?.[0];
+              const tarifa = seleccionarTarifa(tarifasPorHabitacion[h.id] ?? [], entrada || hoy);
+              let precioVisible = null;
+              if (tarifa) {
+                try { precioVisible = formatoCLP(precioNetoPorNoche(tarifa)); }
+                catch { precioVisible = null; }
+              }
               return (
-                <button type="button" key={h.id} disabled={agregada}
+                <button type="button" key={h.id} disabled={agregada || !precioVisible || loading || Boolean(catalogError)}
                   className="quote-category-choice" onClick={() => agregar(h.id)}>
                   <strong>{nombreHabitacion(h, lang)}</strong>
-                  <small>{h.capacidad} {t('guests').toLowerCase()} · {q.roomRate}: {formatoCLP(precioNetoPorNoche(tarifa))}</small>
+                  <small>{h.capacidad} {t('guests').toLowerCase()} · {q.roomRate}: {precioVisible || t('noRates')}</small>
                   <span>{agregada ? q.added : `＋ ${q.add}`}</span>
                 </button>
               );
@@ -175,7 +190,7 @@ export default function Quote() {
         </section>
         <aside className="form-panel quote-summary" aria-live="polite">
           <h2>{t('quotePreview')}</h2>
-          <p className="muted small">{q.disclaimer}</p>
+          <p className="muted small">{DEMO ? q.disclaimer : t('catalogLiveQuoteNotice')}</p>
           <hr className="soft-rule" />
           <div className="summary-list">
             <div><span>{t('nights')}</span><strong>{vista?.noches ?? '—'}</strong></div>
@@ -205,7 +220,7 @@ export default function Quote() {
           {error && <p className="notice error" role="alert">{error}</p>}
           {guardado && <p className="notice success" role="status">{d.saved}</p>}
           <p className="muted small">{q.taxes}</p>
-          <button type="submit" className="btn primary block" disabled={Boolean(guardado)}>{d.save}</button>
+          <button type="submit" className="btn primary block" disabled={Boolean(guardado) || loading || Boolean(catalogError)}>{d.save}</button>
           {guardado && <Link to="/solicitudes-demo" className="btn secondary block">{d.view}</Link>}
           <p className="muted small demo-note">{q.privacy}</p>
           <Link to="/habitaciones" className="text-link">← {t('viewRoom')}</Link>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { nombreHabitacion } from '../lib/contentTranslations';
-import { DEMO_ROOMS } from '../lib/demo';
+import { useCatalog } from '../context/CatalogContext';
 import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
 import { eliminarSolicitudDemo, leerSolicitudesDemo } from '../lib/demoRequests.mjs';
 import { formatoCLP, nochesEntre } from '../lib/quote.mjs';
@@ -15,6 +15,7 @@ function cargar() {
 // Solo demostración pública: NO está asociada a cuentas de Firebase.
 export default function MyRequests() {
   const { lang } = useLanguage();
+  const { rooms } = useCatalog();
   const c = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
   const [datos, setDatos] = useState(cargar);
   const [error, setError] = useState(datos.error);
@@ -51,7 +52,7 @@ export default function MyRequests() {
               <p>{c.nights}: {nochesEntre(s.fechaEntrada, s.fechaSalida)} · {c.guests}: {s.huespedes}</p>
               <ul className="demo-request-rooms">
                 {s.detalleHabitaciones.map(d => {
-                  const room = DEMO_ROOMS.find(r => r.id === d.habitacionId);
+                  const room = rooms.find(r => r.id === d.habitacionId);
                   return <li key={d.habitacionId}>{d.cantidad} × {room ? nombreHabitacion(room, lang) : d.habitacionId}</li>;
                 })}
               </ul>

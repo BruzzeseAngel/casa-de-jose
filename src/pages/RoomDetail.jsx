@@ -1,13 +1,16 @@
 import { Link, useParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { nombreHabitacion, traducirLista } from '../lib/contentTranslations';
-import { DEMO_ROOMS } from '../lib/demo';
+import { useCatalog } from '../context/CatalogContext';
 import PhotoGallery from '../components/PhotoGallery';
 
 export default function RoomDetail() {
   const { id } = useParams();
   const { t, lang } = useLanguage();
-  const room = DEMO_ROOMS.find(item => item.id === id && item.activa);
+  const { rooms, loading, error } = useCatalog();
+  if (loading) return <div className="container section"><p role="status">{t('loading')}</p></div>;
+  if (error) return <div className="container section"><p className="notice error" role="alert">{t(error)}</p></div>;
+  const room = rooms.find(item => item.id === id);
   if (!room) {
     return <div className="container section"><p className="notice error">{t('notFound')}</p>
       <Link to="/habitaciones" className="btn secondary">{t('viewRoom')}</Link></div>;
