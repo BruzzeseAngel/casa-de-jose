@@ -75,3 +75,18 @@
 .lang-picker-option:hover,.lang-picker-option.is-selected{background:#edf4f0}
 .lang-picker-toggle:focus-visible,.lang-picker-option:focus-visible,.menu-toggle:focus-visible{outline:3px solid #b9794880;outline-offset:2px}
 @media(max-width:760px){.site-header .header-inner{padding-top:8px;padding-bottom:8px}.menu-toggle{order:2}.header-actions{order:3}.main-nav{top:100%}}
+
+/* Etapa 3: selección de categorías y desglose de cotización de demostración. */
+.quote-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:14px 0 22px}
+.quote-category-choice{display:grid;gap:7px;padding:15px;text-align:left;border:1px solid var(--line);border-radius:9px;background:#fcfcfa;color:var(--forest);min-width:0}
+.quote-category-choice:hover:not(:disabled){border-color:var(--copper);background:#fcf5ec}
+.quote-category-choice:focus-visible{outline:3px solid #b9794880;outline-offset:2px}
+.quote-category-choice:disabled{background:#edf3ef;color:#5e756d;cursor:default}
+.quote-category-choice strong{font-size:.87rem;line-height:1.35}
+.quote-category-choice small{color:var(--muted);line-height:1.5}
+.quote-category-choice span{font-size:.78rem;font-weight:800;color:var(--copper)}
+.quote-tax-breakdown{margin-top:20px;padding:15px 0 0;border-top:1px solid var(--line);display:grid;gap:11px}
+.quote-tax-breakdown>div{display:flex;justify-content:space-between;gap:12px;font-size:.85rem}
+.quote-tax-breakdown strong{color:var(--forest)}
+.quote-summary>.text-link{margin-top:13px}
+@media(max-width:620px){.quote-category-grid{grid-template-columns:1fr}.quote-category-choice{padding:13px}}

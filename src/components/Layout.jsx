@@ -16,7 +16,7 @@ export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const languageMenu = useRef(null);
   const current = LANGUAGES.find(item => item.code === lang) ?? LANGUAGES[0];
-  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')]];
+  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')]];
 
   useEffect(() => {
     const closeOutside = event => {

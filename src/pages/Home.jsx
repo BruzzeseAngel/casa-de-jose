@@ -16,6 +16,7 @@ export default function Home() {
             <div className="hero-actions">
               <Link className="btn primary" to="/habitaciones">{t('explore')} →</Link>
               <Link className="btn light" to="/servicios">{t('discover')}</Link>
+              <Link className="btn secondary" to="/cotizar">{t('quoteNow')}</Link>
             </div>
             <div className="hero-points"><span>✓ {t('whyTwo')}</span><span>✓ {t('whyThree')}</span></div>
           </div>

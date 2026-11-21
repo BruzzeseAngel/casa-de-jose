@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Rooms from './pages/Rooms';
 import RoomDetail from './pages/RoomDetail';
 import Services from './pages/Services';
+import Quote from './pages/Quote';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Route path="habitaciones" element={<Rooms />} />
         <Route path="habitaciones/:id" element={<RoomDetail />} />
         <Route path="servicios" element={<Services />} />
+        <Route path="cotizar" element={<Quote />} />
         <Route path="*" element={<div className="container section"><h1>Página no encontrada</h1></div>} />
       </Route>
     </Routes>

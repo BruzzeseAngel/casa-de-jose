@@ -26,6 +26,7 @@ export default function RoomDetail() {
           <h2>{t('amenities')}</h2>
           <ul>{traducirLista(room.comodidades, lang).map(item => <li key={item}>{item}</li>)}</ul>
           <p className="notice soft">{t('availability')}</p>
+          <Link className="btn primary" to={`/cotizar?habitacion=${encodeURIComponent(room.id)}`}>{t('quoteNow')} →</Link>
         </section>
       </div>
     </div>

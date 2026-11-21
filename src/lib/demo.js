@@ -1,5 +1,5 @@
 // Datos de demostración; nombres y stock del informe. Capacidades, superficies y servicios son datos ilustrativos; el stock se basa en el informe.
-// No se incluyen tarifas de muestra en esta versión pública.
+// Las tarifas son ficticias y se usan únicamente para probar la vista previa de cotización.
 export const DEMO_ROOMS = [
   ['doble-estandar','Habitación Doble Estándar',2,3,21,'Cama matrimonial','Wi-Fi, Baño privado'],
   ['loft-familiar','Loft Familiar',4,3,35,'Cama matrimonial, Camas individuales','Wi-Fi, Cocina equipada'],
@@ -18,3 +18,21 @@ export const DEMO_SERVICES = [
   {id:'desayuno',nombre:'Desayuno',categoria:'Alimentación',modalidad:'Consultar condiciones',descripcion:'Servicio opcional sujeto a confirmación.',activo:true,emoji:'☕'},
   {id:'sauna',nombre:'Sauna',categoria:'Bienestar',modalidad:'Consultar disponibilidad',descripcion:'Espacio destinado a relajación.',activo:true,emoji:'♨'}
 ];
+
+// Precios NETOS ficticios por noche en CLP. No son precios oficiales ni disponibilidad real.
+// Formato compatible con vistaCotizacion; cada ID contiene un arreglo de tarifas.
+const PRECIOS_DEMO = {
+  'doble-estandar': 62000,
+  'loft-familiar': 99000,
+  'triple': 79000,
+  'doble-dos-camas': 64000,
+  'doble-pequena': 54000,
+  'triple-superior': 89000,
+};
+
+export const DEMO_RATES = Object.fromEntries(
+  Object.entries(PRECIOS_DEMO).map(([id, precioDirecto]) => [
+    id,
+    [{ precioDirecto, tipoPrecio: 'neto', vigente: true, fechaInicio: '2020-01-01' }],
+  ]),
+);

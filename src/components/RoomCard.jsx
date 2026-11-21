@@ -17,9 +17,14 @@ export default function RoomCard({ habitacion }) {
         <h3>{nombre}</h3>
         <p className="room-details">{habitacion.tamanoM2} m² · {habitacion.stockTotal} {t('units').toLowerCase()}</p>
         <p className="amenity-teaser">{traducirLista(habitacion.comodidades.slice(0, 3), lang).join(' · ')}</p>
-        <Link className="text-link" to={`/habitaciones/${encodeURIComponent(habitacion.id)}`}>
-          {t('roomDetails')} →
-        </Link>
+        <div className="room-card-links">
+          <Link className="text-link" to={`/habitaciones/${encodeURIComponent(habitacion.id)}`}>
+            {t('roomDetails')} →
+          </Link>
+          <Link className="btn small secondary" to={`/cotizar?habitacion=${encodeURIComponent(habitacion.id)}`}>
+            {t('quote')}
+          </Link>
+        </div>
       </div>
     </article>
   );
