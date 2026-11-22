@@ -100,3 +100,30 @@
 
 /* Versión 0.5: controles del acceso de clientes. */
 .auth-form{display:grid;gap:16px}.auth-text-button{display:block;width:100%;margin-top:14px;background:none;border:0;padding:5px;color:var(--forest);text-decoration:underline;font-size:.88rem;cursor:pointer}.auth-text-button:disabled{opacity:.5;cursor:wait}.client-panel{max-width:730px}.client-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+
+
+/* Versión 0.7 — CRUD de categorías. Interfaz administrativa sin librerías de CSS. */
+.admin-room-header{display:flex;align-items:center;justify-content:space-between;gap:25px;flex-wrap:wrap;margin-bottom:25px}
+.admin-room-header h1{font-size:clamp(1.85rem,3.2vw,2.8rem);margin:8px 0}
+.admin-room-header .muted{max-width:740px;margin:0}
+.admin-room-grid{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
+.admin-room-editor h2,.admin-room-list h2{font-size:1.25rem;margin:0}
+.admin-room-fieldset{border:0;padding:0;margin:0;min-width:0}
+.admin-room-fields{display:grid;gap:17px;margin:20px 0}
+.admin-room-two-cols{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.admin-room-checkbox{margin-top:5px}
+.admin-room-list{min-width:0}
+.admin-room-count{font-size:.77rem;color:var(--forest);background:#edf4f0;padding:8px 12px;border-radius:20px;white-space:nowrap}
+.admin-room-items{list-style:none;padding:0;margin:12px 0 0}
+.admin-room-item{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding:19px 0;align-items:center}
+.admin-room-item-details{min-width:0;flex:1;overflow-wrap:anywhere}
+.admin-room-item-details>strong{font-size:.96rem;color:var(--forest)}
+.admin-room-item-details p{margin:8px 0 1px;color:var(--muted);font-size:.84rem}
+.admin-room-item-details small{color:var(--muted);font-size:.73rem}
+.admin-room-item-actions{display:flex;flex-direction:column;align-items:stretch;gap:7px}
+.admin-room-status{display:inline-block;font-size:.68rem;font-weight:800;border-radius:20px;padding:4px 8px;margin-left:7px}
+.admin-room-status.is-active{background:#e6f3e9;color:#27603d}
+.admin-room-status.is-inactive{background:#f5eae5;color:#875438}
+.admin-room-danger{border-color:#c68d80;color:#912d24}
+@media(max-width:1050px){.admin-room-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.admin-room-item{align-items:flex-start;flex-direction:column}.admin-room-item-actions{flex-direction:row}.admin-room-two-cols{grid-template-columns:1fr}.admin-room-header .btn{width:100%}}

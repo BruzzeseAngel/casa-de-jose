@@ -17,7 +17,7 @@ const LANGUAGES = [
 
 export default function Layout() {
   const { t, lang, setLang } = useLanguage();
-  const { user } = useAuth();
+  const { user, admin } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const languageMenu = useRef(null);
   const current = LANGUAGES.find(item => item.code === lang) ?? LANGUAGES[0];
@@ -25,7 +25,7 @@ export default function Layout() {
   const authCopy = AUTH_COPY[lang] ?? AUTH_COPY.es;
   const accountLink = DEMO ? ['/solicitudes-demo', demoCopy.link]
     : user ? ['/mis-solicitudes', authCopy.account] : ['/acceso', authCopy.signIn];
-  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], accountLink];
+  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], accountLink, ...(admin ? [['/administracion', 'Administración']] : [])];
 
   useEffect(() => {
     const closeOutside = event => {

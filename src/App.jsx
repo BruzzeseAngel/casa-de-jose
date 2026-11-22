@@ -9,6 +9,8 @@ import Quote from './pages/Quote';
 import Access from './pages/Access';
 import MyRequests from './pages/MyRequests';
 import ClientArea from './pages/ClientArea';
+import AdminRoute from './components/AdminRoute';
+import AdminRooms from './pages/AdminRooms';
 
 export default function App() {
   return (
@@ -22,6 +24,7 @@ export default function App() {
         <Route path="acceso" element={<Access />} />
         <Route path="solicitudes-demo" element={<MyRequests />} />
         <Route path="mis-solicitudes" element={<ProtectedRoute><ClientArea /></ProtectedRoute>} />
+        <Route path="administracion" element={<AdminRoute><AdminRooms /></AdminRoute>} />
         <Route path="*" element={<div className="container section"><h1>Página no encontrada</h1></div>} />
       </Route>
     </Routes>
