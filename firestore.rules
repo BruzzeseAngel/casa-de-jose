@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // La autorización administrativa se decide por una custom claim de Auth.
+    function signedIn() { return request.auth != null; }
+    function admin() { return signedIn() && request.auth.token.admin == true; }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    match /habitaciones/{habitacionId} {
+      allow read: if admin() || resource.data.activa == true;
+      allow create, update, delete: if admin();
+      match /tarifas/{tarifaId} {
+        allow read: if admin() || get(/databases/$(database)/documents/habitaciones/$(habitacionId)).data.activa == true;
+        // La escritura pasa por guardarTarifa (Cloud Function), para validar duplicados y valores.
+        allow write: if false;
+      }
+    }
+
+    match /usuarios/{uid} {
+      allow read: if admin() || owner(uid);
+      // Un visitante solo se puede auto-registrar como cliente, nunca administrador.
+      allow create: if owner(uid)
+        && request.resource.data.keys().hasOnly(['nombre','email','rol','telefono','idiomaPreferido'])
+        && request.resource.data.rol == 'cliente'
+        && request.resource.data.email == request.auth.token.email;
+      // El rol y el correo autenticado NO se pueden cambiar desde el navegador.
+      allow update: if owner(uid)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nombre','telefono','idiomaPreferido']);
+      allow delete: if false;
+    }
+
+    match /solicitudes/{solicitudId} {
+      // Una consulta donde usuarioId == auth.uid permite ver solo solicitudes propias.
+      allow read: if admin() || (signedIn() && resource.data.usuarioId == request.auth.uid);
+      // Creación y cambios SOLO desde funciones con Admin SDK, no desde el navegador.
+      allow write: if false;
+      match /historial/{historialId} {
+        allow read: if admin();
+        allow write: if false;
+      }
+    }
+
+    match /servicios/{servicioId} {
+      allow read: if admin() || resource.data.activo == true;
+      allow create, update, delete: if admin();
+    }
+
+    // Configuración técnica de portada: fotos públicas, escritura solo admin.
+    // No contiene datos personales ni información de solicitudes.
+    match /configuracion/portada {
+      allow read: if true;
+      allow create, update: if admin()
+        && request.resource.data.keys().hasOnly(['fotos','incluirFotosServicios'])
+        && request.resource.data.fotos is list
+        && request.resource.data.fotos.size() <= 12
+        && request.resource.data.incluirFotosServicios is bool;
+      allow delete: if false;
+    }
+
+    // Principio de denegación predeterminada.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

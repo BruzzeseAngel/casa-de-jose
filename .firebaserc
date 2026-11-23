@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "pruebas": "casa-de-jose-pruebas"
+  },
+  "targets": {
+    "casa-de-jose-pruebas": {
+      "hosting": {
+        "principal": [
+          "hostal-la-casa-de-jose"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

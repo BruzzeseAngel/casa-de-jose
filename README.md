@@ -2,7 +2,7 @@
 
 Plataforma web multilingüe para el Hostal La Casa de José (San Pedro de Atacama, Chile). Proyecto de título de Ingeniería en Informática, IPLACEX, 2026.
 
-> **Estado del repositorio: etapa de integración 0.8 (backend original).** A partir de este commit, el código del **frontend** (`src/`, `tests/`, `scripts/`, `index.html`, `vite.config.js` y dependencias) proviene **sin modificaciones funcionales** de la copia definitiva entregada como `Proyecto(2).zip` (21/11/2026). Las fechas de publicación de GitHub representan integración de archivos, no necesariamente sus fechas originales de desarrollo. El `package.json` conserva la versión `1.0.0` del proyecto fuente, aunque esta entrega se denomine parche 08.
+> **Estado del repositorio: etapa de integración 0.9 (configuración Firebase original).** A partir de este commit, el código del **frontend** (`src/`, `tests/`, `scripts/`, `index.html`, `vite.config.js` y dependencias) proviene **sin modificaciones funcionales** de la copia definitiva entregada como `Proyecto(2).zip` (21/11/2026). Las fechas de publicación de GitHub representan integración de archivos, no necesariamente sus fechas originales de desarrollo. El `package.json` conserva la versión `1.0.0` del proyecto fuente, aunque esta entrega se denomine parche 09.
 
 ## Alcance del proyecto definitivo (frontend incorporado)
 
@@ -13,21 +13,25 @@ Plataforma web multilingüe para el Hostal La Casa de José (San Pedro de Atacam
 - Administración unificada en **`/admin`**: habitaciones (baja lógica), tarifas por temporada, solicitudes e historial, servicios y fotografías con Firebase Storage.
 - En modo Firebase, las operaciones sensibles utilizan las Cloud Functions y el backend desplegado por separado. El envío de una solicitud **no** constituye una reserva confirmada; la confirmación corresponde al hostal.
 
-## Alcance de **esta publicación GitHub — parche 08**
+## Alcance de **esta publicación GitHub — parche 09**
 
-El parche 7.5 incorporó literalmente el frontend de `Proyecto(2).zip`, restaurando las rutas `/admin` y `/mis-solicitudes`, los estilos y el cotizador definitivo. **Este parche 08 no toca ningún archivo de `src/`, ni modifica el frontend funcional.**
+Los parches 7.5 y 08 incorporaron el **frontend y backend sin modificaciones funcionales** desde `Proyecto(2).zip`. El parche 09 incorpora **cinco archivos originales, sin alterar su contenido**:
 
-Ahora se incorporan literalmente las **Cloud Functions del proyecto definitivo** y sus pruebas de backend:
+- `firebase.json`: declara Firestore, Storage, Functions, Hosting y puertos de emuladores. Su Hosting usa el destino lógico `principal` y publica `dist/`.
+- `.firebaserc`: define el alias `pruebas` para el proyecto `casa-de-jose-pruebas` y asocia el destino `principal` con el sitio `hostal-la-casa-de-jose`.
+- `firestore.rules`: controla la lectura pública de documentos activos y las escrituras autorizadas mediante la custom claim `admin`; solicitudes y tarifas se escriben desde Cloud Functions.
+- `storage.rules`: admite lectura pública de fotografías de catálogo y restringe su administración a cuentas con claim `admin`, tamaño menor de 5 MiB y formatos JPEG/PNG/WebP.
+- `firestore.indexes.json`: declara el índice compuesto para consultar solicitudes por `usuarioId` y `createdAt`.
 
-- `crearSolicitud`: valida datos y cotiza en el servidor, usando las tarifas que realmente están guardadas en Firestore; incorpora el texto opcional `comentarios`.
-- `guardarTarifa`: crea o actualiza tarifas con validaciones y autorización de administrador, manteniendo compatibilidad con registros históricos que incluyen IVA.
-- `actualizarSolicitud`: actualiza datos de contacto y estado, exige verificación manual de disponibilidad antes de confirmar y registra historial.
-- `notificarNuevaSolicitud`: envía aviso al administrador mediante Resend cuando se crea una solicitud; la clave es un **secreto de Firebase**, no un dato de GitHub.
-- `pricing.js`, `comentarios.js` y `correoContenido.js`: reglas reutilizables y pruebas unitarias. Los archivos `pricing.js` y `functions/package.json` ya estaban publicados y permanecen sin cambios.
+**No se modifica ningún archivo de `src/`, `functions/` ni `tests/`.** Las reglas, índices y configuración se incluyen para completar el código del repositorio; **no se han desplegado desde GitHub** y su publicación mediante `git push` no modifica Firebase.
 
-**Estado actual:** el código frontend y backend existe en el repositorio, pero **todavía no se incorporan** `firebase.json`, `.firebaserc`, `firestore.rules`, `storage.rules` y `firestore.indexes.json`. Esos archivos deben incorporarse y revisarse en el siguiente parche antes de considerar un despliegue desde esta carpeta. El proyecto que actualmente funciona en Firebase Hosting **no se modifica** al publicar este commit en GitHub. No ejecutes `firebase deploy` desde este repositorio parcial.
+### Advertencia importante sobre Hosting
 
-Los archivos de entorno (`.env`, `functions/.env`, `functions/.env.casa-de-jose-pruebas`), claves, credenciales y artefactos `dist/` se **excluyen** de GitHub. El backend requiere configuración local y permisos apropiados para funcionar contra Firebase; **tener el código publicado no significa que se hayan ejecutado las funciones reales**.
+La configuración original asigna `hosting.target = principal` y lo vincula al **sitio** `hostal-la-casa-de-jose`. Ese destino no coincide nominalmente con la URL de pruebas `casa-de-jose-pruebas.web.app` utilizada durante el proyecto. **Antes de ejecutar cualquier `firebase deploy` desde esta copia**, verifica con Firebase CLI y Firebase Console el proyecto y el sitio de Hosting de destino. No cambies `.firebaserc` ni `firebase.json` sin acordarlo y probarlo antes.
+
+En esta etapa se publica **solamente en GitHub**; no se deben ejecutar `firebase deploy`, `npm run seed` ni `npm run admin` como parte de la instalación del parche.
+
+No se publican archivos `.env`, variables privadas de Functions, cuentas de servicio ni `dist/`. Los nombres públicos de proyecto y sitio en `.firebaserc` no son credenciales de acceso.
 
 ## Inicio local
 
@@ -79,15 +83,20 @@ functions/
   comentarios.js           Normaliza el campo opcional del huésped
   correoContenido.js       Contenido del correo escapando HTML
   *.test.js                Pruebas unitarias del backend
+firebase.json              Firebase Hosting, Firestore, Storage, Functions y emuladores
+.firebaserc                Alias y destino de Hosting originales (revisar antes de desplegar)
+firestore.rules            Seguridad de Cloud Firestore
+storage.rules              Seguridad de Firebase Storage
+firestore.indexes.json     Índice compuesto de solicitudes
 ```
 
-Las Cloud Functions se incorporaron **sin cambios** desde el ZIP definitivo. No existe nueva lógica ni rutas añadidas en este parche; solamente se documentó su incorporación. Las variables de correo de Firebase son `RESEND_API_KEY` (secreto), `ADMIN_EMAIL`, `RESEND_FROM` y `SITE_URL` (parámetros del servidor). No coloques estos datos en el código cliente ni los subas a GitHub.
+Las Cloud Functions y la configuración Firebase provienen **sin cambios** desde el ZIP definitivo. El parche 09 solo incorpora archivos de configuración y reglas; no añade nuevas funcionalidades ni despliega servicios. Las variables de correo de Firebase son `RESEND_API_KEY` (secreto), `ADMIN_EMAIL`, `RESEND_FROM` y `SITE_URL` (parámetros del servidor). No coloques estos datos en el código cliente ni los subas a GitHub.
 
 Los scripts `seed` y `admin` actúan sobre Firebase y **no deben ejecutarse sin revisar previamente el proyecto y los permisos**. Los valores de la demostración no constituyen precios oficiales del hostal.
 
 ## Criterio de continuidad
 
-**Fuente de verdad:** `Proyecto(2).zip`, que incluye el campo de comentarios y la corrección del estado del formulario de cotización. Los parches posteriores deben añadir los archivos originales faltantes, sin reescribir el frontend ni el backend sin una revisión y aprobación previa. Antes del último commit se verificará la igualdad de archivos funcionales con la fuente.
+**Fuente de verdad:** `Proyecto(2).zip`, que incluye el campo de comentarios y la corrección del estado del formulario de cotización. El parche final se dedicará a documentar y verificar la paridad con la fuente, sin reescribir el frontend ni el backend sin revisión y aprobación previa. Antes del último commit se verificará la igualdad de archivos funcionales con la fuente.
 
 ## Autoría y contexto
 
