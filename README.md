@@ -103,4 +103,4 @@ En la auditoría del cierre de integración se ejecutaron **35 pruebas del front
 
 ## Contexto académico
 
-Repositorio de integración y documentación del proyecto de título de Angel Jose Ignacio Bruzzese Araya, IPLACEX. Las publicaciones de GitHub registran la incorporación progresiva de una implementación elaborada previamente y **no documentan por sí mismas autoría individual ni una cronología de desarrollo desde cero**.
+Repositorio de integración y documentación del proyecto de título de Angel Jose Ignacio Bruzzese Araya, IPLACEX. Las publicaciones de GitHub registran la incorporación progresiva de una implementación elaborada previamente.
