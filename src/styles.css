@@ -13,13 +13,27 @@
 .hero{padding:48px 0 55px;background:linear-gradient(125deg,#f8f6ef 20%,#e9efea 100%);overflow:hidden}.hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:50px}.hero-copy{padding:40px 0}.hero-copy h1{font-weight:850;max-width:580px;margin:15px 0 22px}.hero-copy>p:not(.overline){font-size:1.07rem;color:#61736e;max-width:520px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}.hero-points{display:flex;flex-wrap:wrap;gap:18px;margin-top:35px;font-size:.81rem;color:#506d62;font-weight:700}.hero-art{height:480px;border-radius:17px;background:linear-gradient(#c6d9d7 0%,#d3d4bc 51%,#d5ae77 52%,#c78f59 100%);box-shadow:0 21px 45px #14382b1c;position:relative;overflow:hidden}.hero-art:after{content:"";position:absolute;bottom:0;left:0;width:100%;height:25%;background:repeating-linear-gradient(105deg,#ac704b66 0 2px,transparent 2px 32px);opacity:.7}.sun{position:absolute;width:135px;height:135px;border-radius:50%;right:13%;top:11%;background:#f6e5ba;box-shadow:0 0 0 25px #f6e6c53d}.hill{position:absolute;width:130%;left:-10%;height:220px;border-radius:50% 50% 0 0}.hill.h1{bottom:100px;background:#9ea695;transform:rotate(-7deg)}.hill.h2{bottom:45px;left:12%;background:#b58b6c;transform:rotate(7deg)}.house{position:absolute;width:285px;height:230px;bottom:63px;left:50%;transform:translateX(-50%);background:#e7b478;border:9px solid #ae7046;box-shadow:12px 16px 20px #523c2755;z-index:2}.roof{position:absolute;left:-22px;top:-66px;width:310px;height:85px;background:#965f42;clip-path:polygon(50% 0,100% 100%,0 100%)}.door{position:absolute;bottom:0;left:104px;width:62px;height:110px;background:#633d2b;border-radius:36px 36px 0 0}.window{position:absolute;top:65px;width:49px;height:58px;background:#d1d6bb;border:8px solid #925d3e}.window.w1{left:24px}.window.w2{right:24px}.hero-art-caption{position:absolute;bottom:17px;right:24px;z-index:4;color:#fff4df;font-size:.72rem;font-weight:900;letter-spacing:.25em}.hero-art-caption span{color:#efd0a1}
 /* ---------- Tarjetas y servicios ---------- */
 .room-grid,.services-grid,.feature-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.room-card,.service-card{background:#fff;border:1px solid var(--line);overflow:hidden;border-radius:var(--radius);box-shadow:0 2px 7px #233c3211}.room-photo{height:205px;position:relative;overflow:hidden;background:#cba477}.room-photo img{width:100%;height:100%;object-fit:cover}.photo-variant-0{background:linear-gradient(140deg,#a86837,#e7c08c 62%,#754733)}.photo-variant-1{background:linear-gradient(140deg,#727b5b,#c5b185 62%,#825c48)}.photo-variant-2{background:linear-gradient(140deg,#946049,#e0b893 62%,#594c3f)}.photo-variant-3{background:linear-gradient(140deg,#557270,#c6bd9c 65%,#997552)}.photo-variant-4{background:linear-gradient(140deg,#c2a06b,#e6c9ad 62%,#987052)}.photo-variant-5{background:linear-gradient(140deg,#777b73,#d4c7a4 62%,#8d6049)}.photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ffffffbf;text-shadow:0 1px 4px #0004}.photo-placeholder span{font-size:7rem;line-height:1}.photo-placeholder small{font-size:.68rem;letter-spacing:.25em;font-weight:800}.photo-tag{position:absolute;left:15px;bottom:14px;background:#fffef2ef;color:var(--forest);font-size:.73rem;padding:7px 11px;font-weight:850;border-radius:5px}.room-card-body{padding:22px}.room-card h3{margin:0 0 8px;color:var(--forest)}.room-details{font-size:.8rem;color:#788782;margin:0}.room-details span{padding:0 6px}.amenity-teaser{font-size:.86rem;color:#78827c;min-height:44px}.room-price{font-size:.75rem;color:var(--muted);margin:14px 0}.room-price strong{font-size:1.12rem;color:#277365;margin-left:3px}.room-price small{font-size:.74rem}.teal-section{background:var(--forest);color:#fff;padding:54px 0}.teaser-grid{display:grid;grid-template-columns:2fr 1fr;align-items:center;gap:25px}.teaser-grid h2{max-width:560px}.teaser-grid p:not(.overline){max-width:540px;color:#b9d1c8}.teaser-grid .btn{margin-top:14px}.teaser-mark{font-size:8rem;color:#e9c9a0;text-align:center;position:relative}.teaser-mark span{font-size:4rem;position:absolute;right:26%;bottom:-10px;color:#88b6a8}.feature{background:#fff;border:1px solid var(--line);padding:25px;border-radius:var(--radius)}.feature span{font-size:2.4rem;color:var(--copper)}.feature h3{font-size:1rem;margin:12px 0 0}.services-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.service-card{border-radius:9px}.service-art{height:180px;display:flex;align-items:center;justify-content:center;background:#d8c6a8}.service-art-1{background:#d3dfd6}.service-art-2{background:#e8ceaa}.service-art-3{background:#ccbdad}.service-art:not(.photo-gallery) > span{font-size:4.2rem;color:#fff7e9}.service-body{padding:18px}.service-body h2{font-size:1.15rem;margin:5px 0}.service-body p{font-size:.85rem;color:#65766e;margin:6px 0}.footer{background:#e8e9e3;padding:30px 0;color:#4d625a;margin-top:auto}.footer-inner{display:flex;justify-content:space-between;gap:30px;font-size:.8rem}.footer strong{letter-spacing:.05em;color:var(--forest)}.footer p{margin:4px 0}
+/* ---------- Formularios de cotización y cuentas ---------- */
 .form-panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:0 2px 8px #27362d0a}.form-panel h2{font-size:1.2rem}.field{display:flex;flex-direction:column;gap:8px;color:#4b5f58;font-size:.84rem;font-weight:700;min-width:0}.field input,.field select,.field textarea{background:#fcfcfb;border:1px solid #dbe1da;border-radius:7px;min-height:43px;padding:10px 12px;color:var(--ink);width:100%;outline:none}.field textarea{resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#b58e64;box-shadow:0 0 0 3px #b58e6426}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.form-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.checkbox-line{display:flex;align-items:flex-start;gap:10px;font-size:.86rem;color:#4a6258;margin:10px 0;cursor:pointer}.checkbox-line input{width:18px;height:18px;accent-color:var(--forest);flex-shrink:0}.quote-layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(310px,1fr);align-items:start;gap:24px}.group-heading{display:flex;align-items:flex-start;gap:13px;margin-bottom:20px}.group-heading h2{margin:0 0 7px}.group-heading p{margin:0;color:#76847d;font-size:.83rem}.step{width:34px;height:34px;flex-shrink:0;background:#e8f0eb;color:var(--forest);border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:900}.selected-list{margin:14px 0}.empty-note{border:1px dashed #cdd9d2;border-radius:8px;padding:16px;color:#7a8b83;font-size:.85rem}.selected-row{display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.tiny-image{width:58px;height:58px;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(130deg,#b78664,#e5c29c);color:#fff;font-size:2rem;border-radius:6px}.selected-name{flex:1;min-width:0}.selected-name strong{font-size:.86rem}.selected-name small{display:block;color:var(--muted);font-size:.72rem}.qty{font-size:.71rem;color:var(--muted);display:grid;gap:4px}.qty input{width:64px;border:1px solid #d7dcd8;border-radius:5px;padding:7px}.icon-btn{border:0;background:#fff2ef;color:#a45e51;font-size:1.5rem;border-radius:6px;width:32px;height:32px;line-height:1}.quote-summary{position:sticky;top:105px}.quote-summary>h2{margin-bottom:8px}.summary-list{display:grid;gap:17px}.summary-list>div{display:flex;justify-content:space-between;gap:10px;font-size:.82rem}.summary-list strong{color:var(--forest);text-align:right}.grand-total{border-top:1px solid var(--line);padding:20px 0 14px;margin-top:20px;display:flex;justify-content:space-between;align-items:center}.grand-total span{font-weight:700}.grand-total strong{font-size:1.5rem;color:#17685b}.quote-summary .btn{margin-top:10px}.demo-note{font-size:.75rem}.auth-backdrop{background:radial-gradient(circle at 12% 20%,#e9e9dd,transparent 35%),#f7f7f2;display:flex;justify-content:center;align-items:flex-start;padding:95px 22px;min-height:620px}.auth-panel{width:min(460px,100%);background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 55px #1b3c3112;padding:40px}.auth-panel h1{font-size:2.1rem}.auth-panel>p.muted{font-size:.92rem;margin-bottom:25px}.auth-switch{font-size:.87rem;text-align:center;margin-top:20px}.link-button{background:none;border:0;color:var(--copper);font-size:1.1rem;font-weight:900}.requests-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.request-card{background:#fff;border:1px solid var(--line);padding:25px;border-radius:12px}.request-card h2{font-size:1.2rem;margin-top:17px}.request-card>p{font-size:.86rem}.price{color:#17715e}.empty-state{text-align:center;padding:65px}.huge-icon{font-size:5rem;color:#b6c3b8}.status{font-size:.72rem;font-weight:850;padding:6px 10px;background:#f6eddc;color:#a06a2a;border-radius:20px}.status.confirmada{background:#e0f3e8;color:#2b7b4d}.status.rechazada{background:#fae9e7;color:#9e4c4c}.status.archivada{background:#eceeed;color:#60726d}
+/* ---------- Panel administrativo ---------- */
+.admin-layout{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 205px);background:#f7f8f6}.admin-sidebar{background:#183c3a;color:#f1f6f0;padding:30px 18px;display:flex;flex-direction:column;gap:10px}.admin-brand{font-size:1rem;letter-spacing:.06em}.admin-sidebar>small{color:#b3c9c1;margin-bottom:30px}.admin-sidebar nav{display:grid;gap:7px}.admin-sidebar button{display:block;background:transparent;color:#c0d1c9;padding:13px 14px;border:0;text-align:left;border-radius:6px;font-size:.9rem}.admin-sidebar button:hover,.admin-sidebar button.active{background:#2d5853;color:#fff}.admin-sidebar>a{margin-top:auto;color:#d2ddd5;font-size:.83rem}.admin-content{padding:35px 36px;min-width:0;max-width:1320px;width:100%;margin:0 auto}.admin-top{display:flex;justify-content:space-between;gap:10px;align-items:start;margin-bottom:26px}.admin-top h1{font-size:2rem;margin:7px 0}.admin-top p.muted{font-size:.85rem}.admin-chip{font-size:.73rem;border:1px solid #d3dfd7;background:#fff;border-radius:7px;padding:9px;color:#526b60}.stats-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-bottom:20px}.stat{padding:22px;background:#fff;border:1px solid var(--line);border-radius:10px}.stat span{font-size:.81rem;color:#67776e}.stat strong{font-size:2rem;color:var(--forest);display:block;margin-top:6px}.admin-page-head{margin:22px 0}.admin-page-head h2{font-size:1.5rem;margin:0 0 5px}.admin-page-head p{color:var(--muted);font-size:.88rem}.admin-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.admin-content .form-panel{margin-bottom:18px}.admin-content .form-panel h3{margin:0;font-size:1.1rem}.admin-list{margin-top:20px}.admin-list-row{display:flex;gap:20px;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding:17px 0}.admin-list-row:last-child{border:0}.admin-list-row strong{font-size:.88rem}.admin-list-row p{font-size:.79rem;color:var(--muted);margin:4px 0}.request-admin-card h3{font-size:1rem;line-height:1.4}.request-details{background:#f5f7f4;border-radius:7px;padding:12px 15px;margin:15px 0}.request-details p{font-size:.79rem;margin:4px 0}.history{background:#f4f5f1;padding:15px;border-radius:8px}.history h4{font-size:.87rem}.history p{font-size:.76rem;border-bottom:1px solid var(--line);padding-bottom:8px}
 /* ---------- Adaptación: tabletas y móviles ---------- */
 @media(max-width:1000px){.container{width:min(100% - 40px,1200px)}.main-nav{gap:14px}.header-inner{gap:15px}.hero-grid{gap:24px}.hero-art{height:390px}.room-grid{gap:14px}.room-card-body{padding:16px}.services-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quote-layout{grid-template-columns:1fr 340px;gap:16px}.form-panel{padding:22px}.admin-layout{grid-template-columns:190px 1fr}.admin-content{padding:28px 20px}}
 @media(max-width:760px){.container{width:calc(100% - 32px)}.section{padding:45px 0}.site-header .header-inner{min-height:67px;flex-wrap:wrap}.brand{min-width:0;margin-right:auto}.brand-main{font-size:.91rem}.brand-sub{font-size:.5rem}.menu-toggle{display:block;order:3}.header-actions{order:2}.main-nav{display:none;position:absolute;top:67px;left:0;right:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 18px;box-shadow:0 10px 20px #0001;z-index:15}.main-nav.nav-open{display:flex;flex-direction:column;align-items:stretch;gap:0}.main-nav a{padding:12px;border-bottom:1px solid #f0f0eb}.hero{padding:20px 0 40px}.hero-grid{grid-template-columns:1fr}.hero-copy{padding:24px 0 0}.hero-copy h1{font-size:clamp(2.1rem,8vw,3rem)}.hero-art{height:290px}.house{transform:translateX(-50%) scale(.68);transform-origin:center bottom;bottom:35px}.room-grid,.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-heading{align-items:start;flex-direction:column}.teaser-grid{grid-template-columns:1fr}.teaser-mark{display:none}.quote-layout{grid-template-columns:1fr}.quote-summary{position:static;grid-row:2}.form-grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}.admin-layout{display:block}.admin-sidebar{padding:15px;display:block}.admin-sidebar>small,.admin-sidebar>a{display:none}.admin-sidebar nav{display:flex;overflow:auto;gap:5px;margin-top:12px}.admin-sidebar button{flex-shrink:0;padding:9px 11px;white-space:nowrap}.admin-content{padding:23px 16px}.footer-inner{flex-direction:column;gap:12px}}
 @media(max-width:520px){.nav-login{font-size:.73rem;padding:9px 10px}.lang-control{padding:5px}.header-actions{gap:7px}.hero-copy>p:not(.overline){font-size:.96rem}.hero-points{display:grid;gap:7px}.hero-art{height:230px}.room-grid,.services-grid,.feature-grid,.requests-grid,.form-grid,.form-grid.three,.stats-grid{grid-template-columns:1fr}.room-photo{height:205px}.hero-actions .btn{flex:1}.quote-main,.quote-summary,.form-panel{padding:17px}.selected-row{gap:8px}.tiny-image{width:44px;height:44px}.selected-name strong{font-size:.76rem}.qty input{width:54px}.admin-list-row{align-items:flex-start;flex-direction:column;gap:10px}.admin-top{flex-direction:column}.auth-backdrop{padding:40px 14px;min-height:500px}.auth-panel{padding:25px 19px}}
 /* Accesibilidad: respetar usuarios que prefieren menos movimiento. */
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+
+/* Comparación informativa: visible solo cuando el administrador registró un precio de referencia. */
+.reference-price{font-size:.75rem;color:#77827b;margin:-7px 0 13px}.reference-price s{color:#986c50}
+
+/* ==============================================================
+   MEJORAS DE INTERFAZ - 08/11/2026
+   Galerías, ficha de habitación, selector visual y vistas móviles.
+   Ninguna clase reemplaza el modelo de datos ni usa Bootstrap.
+   ============================================================== */
+.flag-current{font-size:1.16rem;line-height:1.2;display:inline-flex;align-items:center}
+.lang-control{white-space:nowrap}
 .photo-gallery{position:relative;overflow:hidden;background:#d8b58e}
 .photo-gallery>img{height:100%;width:100%;object-fit:cover;display:block}
 .photo-gallery:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
@@ -44,10 +58,49 @@
 .room-detail-info ul{padding-left:23px;margin:8px 0;color:#536b60;line-height:1.9}
 .room-detail-info .notice{margin:20px 0}
 .room-detail-info .room-price{font-size:.93rem}
+.category-picker-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;background:#fcfcfb;border:1px solid #cfdad1;border-radius:8px;padding:14px 16px;color:var(--forest);font-weight:800;text-align:left}
+.category-picker-toggle:focus-visible,.category-choice:focus-visible{outline:3px solid #b58e6466;outline-offset:2px}
+.category-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0 16px;padding:12px;border:1px solid var(--line);background:#f8f9f6;border-radius:10px}
+.category-choice{display:flex;gap:11px;align-items:center;text-align:left;border:1px solid #e2e5e0;border-radius:8px;padding:8px;background:#fff;color:var(--forest);min-width:0}
+.category-choice:hover:not(:disabled){border-color:var(--copper);box-shadow:0 2px 8px #0000000b}
+.category-choice:disabled{opacity:.48;cursor:not-allowed}
+.category-choice>img,.category-choice>.tiny-image{width:78px;height:68px;border-radius:6px;object-fit:cover;flex-shrink:0}
+.category-choice>.tiny-image{display:grid;place-items:center}
+.category-choice span:not(.tiny-image){min-width:0;display:grid;gap:4px}
+.category-choice strong{font-size:.79rem;line-height:1.28}
+.category-choice small{font-size:.72rem;color:var(--muted)}
+.selected-row .tiny-image{overflow:hidden;color:#fff;text-decoration:none;font-size:2rem;flex-shrink:0}
+.selected-row .tiny-image img{width:100%;height:100%;object-fit:cover}
+.inline-link{color:var(--copper);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.field-help{font-size:.71rem;font-weight:400;color:#6a7b72;line-height:1.45}
+.admin-page-head.between{flex-wrap:wrap}
 @media(max-width:900px){.room-detail-grid{grid-template-columns:1fr}.room-detail-gallery{height:390px;min-height:0}}
 @media(max-width:620px){.category-picker-grid{grid-template-columns:1fr}.room-card-links{flex-direction:column;align-items:start}.room-detail-gallery{height:265px}.category-choice>img,.category-choice>.tiny-image{width:70px;height:60px}.hero-real-photos .hero-art-caption{font-size:.62rem;bottom:12px}.hero-real-photos .gallery-counter{bottom:39px}.gallery-arrow{width:32px;height:37px}.room-detail-info{padding:20px}}
 @media(prefers-reduced-motion:reduce){.gallery-arrow{transition:none}}
+
+/* Mejoras 2026-11-08: imágenes reales de servicios, administración y desglose IVA. */
 .service-art img {width:100%;height:100%;display:block;object-fit:cover}
+.service-admin-row {gap:14px}
+.service-admin-info {flex:1;min-width:170px}
+.service-admin-thumb {width:95px;height:76px;object-fit:cover;border-radius:10px;flex-shrink:0}
+.service-admin-gallery {display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.service-admin-photo {display:flex;flex-direction:column;gap:7px}
+.service-admin-photo img {display:block;width:100%;height:110px;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+.danger-outline {border:1px solid #ae3e34!important;color:#8f2824!important;background:#fff!important}
+.danger-outline:hover {background:#fff1ee!important}
+.tax-breakdown {border-top:1px dashed var(--line);padding:13px 0 4px;display:grid;gap:10px}
+.tax-breakdown>div {display:flex;justify-content:space-between;align-items:baseline;gap:10px;color:var(--muted)}
+.tax-breakdown strong {color:var(--ink)}
+.tax-note {font-size:.79rem;line-height:1.55;background:#f6f4ed;border-left:3px solid var(--copper);padding:12px 13px;color:var(--ink);border-radius:5px;margin:12px 0 14px}
+@media(max-width:520px){.service-admin-row{align-items:stretch}.service-admin-thumb{width:100%;height:125px}.service-admin-row .admin-actions{flex-wrap:wrap}.tax-note{font-size:.76rem}}
+
+/* ================================================================
+   AJUSTES - Servicios / selector de idiomas (08-11-2026)
+   1) El contador de la galería de servicios usa el mismo tamaño discreto
+      que el de las habitaciones. La regla antigua .service-art span
+      agrandaba accidentalmente el contador además del icono de relleno.
+   2) Banderas SVG locales + código de idioma y menú accesible al teclado.
+   ================================================================ */
 .service-art.photo-gallery .gallery-counter{
   font-size:.72rem;
   line-height:1.2;
@@ -62,68 +115,191 @@
   width:auto;
   height:auto;
 }
+/* El control no modifica los idiomas ni la persistencia existente. */
+.lang-picker{position:relative;flex-shrink:0;color:var(--forest)}
+.lang-picker-toggle{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:41px;padding:8px 12px;
+  background:#f3f6f3;border:1px solid #e6ece7;border-radius:9px;
+  cursor:pointer;list-style:none;font-size:.83rem;
+}
+.lang-picker-toggle::-webkit-details-marker{display:none}
+.lang-picker-toggle:hover,.lang-picker[open] .lang-picker-toggle{background:#e9f0eb;border-color:#cfdbd2}
+.lang-picker-toggle:focus-visible,.lang-picker-option:focus-visible{
+  outline:3px solid #b9794880;outline-offset:2px;
+}
+.lang-flag{
+  display:block;width:25px;height:17px;object-fit:cover;border-radius:3px;
+  box-shadow:0 0 0 1px #192c2522;flex-shrink:0;
+}
+.lang-chevron{font-size:1.16rem;line-height:.6;color:#586b63;margin-left:1px;transform:translateY(-2px)}
+.lang-picker[open] .lang-chevron{transform:rotate(180deg) translateY(1px)}
+.lang-picker-menu{
+  position:absolute;top:calc(100% + 8px);right:0;z-index:70;
+  min-width:218px;background:#fff;border:1px solid var(--line);
+  border-radius:11px;padding:6px;box-shadow:0 14px 40px #193b362c;
+}
+.lang-picker-option{
+  display:flex;align-items:center;gap:11px;width:100%;padding:10px;
+  border:0;background:#fff;color:var(--forest);border-radius:7px;
+  text-align:left;font-size:.85rem;
+}
+.lang-picker-option:hover,.lang-picker-option.is-selected{background:#eaf2ec}
+.lang-picker-option.is-selected{font-weight:750}
+.lang-picker-option>span:nth-child(2){flex:1;white-space:nowrap}
+.lang-code{color:#74847c;font-size:.72rem;font-weight:800}
+@media(max-width:520px){
+  .lang-picker-toggle{gap:5px;padding:7px;min-height:37px}
+  .lang-flag{width:23px;height:16px}
+  .lang-picker-menu{min-width:204px;right:0}
+}
 
-/* Selector de idioma con banderas locales */
-.lang-picker {position:relative;flex-shrink:0}
-.lang-picker-toggle {list-style:none;display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:9px;background:#f3f6f3;cursor:pointer;border:1px solid #e4eae4;min-height:40px;color:var(--forest)}
-.lang-picker-toggle::-webkit-details-marker {display:none}
-.lang-flag {width:21px;height:15px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 1px #0001}
-.lang-picker-menu {position:absolute;top:calc(100% + 8px);right:0;width:215px;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px #14382b27;padding:6px;z-index:50}
-.lang-picker-option {width:100%;border:0;border-radius:7px;display:flex;align-items:center;gap:9px;padding:10px;text-align:left;color:var(--forest);background:white;cursor:pointer}
-.lang-picker-option span {flex:1}
-.lang-picker-option small {color:var(--muted)}
-.lang-picker-option:hover,.lang-picker-option.is-selected{background:#edf4f0}
-.lang-picker-toggle:focus-visible,.lang-picker-option:focus-visible,.menu-toggle:focus-visible{outline:3px solid #b9794880;outline-offset:2px}
-@media(max-width:760px){.site-header .header-inner{padding-top:8px;padding-bottom:8px}.menu-toggle{order:2}.header-actions{order:3}.main-nav{top:100%}}
 
-/* Etapa 3: selección de categorías y desglose de cotización de demostración. */
-.quote-category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:14px 0 22px}
-.quote-category-choice{display:grid;gap:7px;padding:15px;text-align:left;border:1px solid var(--line);border-radius:9px;background:#fcfcfa;color:var(--forest);min-width:0}
-.quote-category-choice:hover:not(:disabled){border-color:var(--copper);background:#fcf5ec}
-.quote-category-choice:focus-visible{outline:3px solid #b9794880;outline-offset:2px}
-.quote-category-choice:disabled{background:#edf3ef;color:#5e756d;cursor:default}
-.quote-category-choice strong{font-size:.87rem;line-height:1.35}
-.quote-category-choice small{color:var(--muted);line-height:1.5}
-.quote-category-choice span{font-size:.78rem;font-weight:800;color:var(--copper)}
-.quote-tax-breakdown{margin-top:20px;padding:15px 0 0;border-top:1px solid var(--line);display:grid;gap:11px}
-.quote-tax-breakdown>div{display:flex;justify-content:space-between;gap:12px;font-size:.85rem}
-.quote-tax-breakdown strong{color:var(--forest)}
-.quote-summary>.text-link{margin-top:13px}
-@media(max-width:620px){.quote-category-grid{grid-template-columns:1fr}.quote-category-choice{padding:13px}}
-
-/* Etapa 04: solicitudes ficticias y acceso informativo, sin autenticación. */
-.demo-requests-actions{margin:18px 0 27px}
-.demo-request-rooms{padding-left:20px;color:var(--muted);font-size:.86rem;line-height:1.7;min-height:40px}
-.demo-request-delete{margin-top:18px}
-.request-card .between{flex-wrap:wrap}
-@media(max-width:760px){.main-nav{max-height:70vh;overflow-y:auto}}
-
-/* Versión 0.5: controles del acceso de clientes. */
-.auth-form{display:grid;gap:16px}.auth-text-button{display:block;width:100%;margin-top:14px;background:none;border:0;padding:5px;color:var(--forest);text-decoration:underline;font-size:.88rem;cursor:pointer}.auth-text-button:disabled{opacity:.5;cursor:wait}.client-panel{max-width:730px}.client-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+/* =============================================================
+   MEJORAS ADMINISTRATIVAS: FILTRO POR ESTADO Y TARIFAS CON FOTO
+   Solo interfaz: no modifica modelos, reglas ni Cloud Functions.
+   ============================================================= */
+.admin-request-filter{background:#fff;border:1px solid var(--line);padding:16px 20px;border-radius:12px;margin:14px 0 20px}
+.admin-request-filter-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;font-size:.87rem;color:var(--forest)}
+.admin-request-filter-head span{color:var(--muted);font-size:.8rem;font-weight:500}
+.admin-request-filter-options{display:flex;gap:8px;flex-wrap:wrap}
+.request-filter-option{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:40px;border:1px solid #dce3dc;background:#f8f9f6;color:var(--forest);padding:7px 12px;border-radius:22px;font-size:.84rem;font-weight:750;white-space:nowrap;transition:background .15s,border-color .15s}
+.request-filter-option:hover{border-color:var(--copper);background:#fbf2e9}
+.request-filter-option.is-active{background:var(--forest);color:#fff;border-color:var(--forest)}
+.request-filter-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;min-height:22px;padding:2px 6px;background:#e5eae6;border-radius:20px;color:#31544a;font-size:.72rem;font-variant-numeric:tabular-nums}
+.request-filter-option.is-active .request-filter-count{background:#ffffff2c;color:#fff}
+.request-filter-option:focus-visible,.admin-rate-room-card:focus-visible{outline:3px solid #ad7446;outline-offset:2px}
+.request-filter-empty p{font-size:.88rem;color:var(--muted)}
+.admin-rate-room-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px;margin:16px 0 8px}
+.admin-rate-room-card{display:flex;align-items:center;gap:12px;min-width:0;min-height:96px;text-align:left;background:#fff;border:2px solid #e3e7e2;border-radius:10px;padding:9px;color:var(--forest);transition:box-shadow .15s,border-color .15s,background .15s}
+.admin-rate-room-card:hover:not(:disabled){border-color:#c68d63;box-shadow:0 4px 16px #173d3c16}
+.admin-rate-room-card.is-selected{border-color:var(--copper);background:#fff9f3;box-shadow:0 0 0 2px #b9794830}
+.admin-rate-room-card:disabled{opacity:.65;cursor:wait}
+.admin-rate-room-image{display:block;flex-shrink:0;overflow:hidden;width:92px;height:78px;border-radius:7px;background:linear-gradient(125deg,#b78664,#e6c399)}
+.admin-rate-room-image img{display:block;width:100%;height:100%;object-fit:cover}
+.admin-rate-room-image-empty{display:grid;place-items:center;width:100%;height:100%;color:#fff9ed;font-size:2.6rem}
+.admin-rate-room-meta{min-width:0;flex:1;display:grid;gap:5px}
+.admin-rate-room-meta strong{font-size:.84rem;line-height:1.25;overflow-wrap:anywhere}
+.admin-rate-room-meta small{font-size:.73rem;color:var(--muted)}
+.admin-rate-inactive{color:#a35b30!important}
+.admin-rate-room-check{flex-shrink:0;display:grid;place-items:center;width:24px;height:24px;border:1px solid #cfdad1;border-radius:50%;color:#57746c;font-weight:900;background:#fff}
+.admin-rate-room-card.is-selected .admin-rate-room-check{border-color:var(--forest);background:var(--forest);color:#fff}
+@media(max-width:620px){.admin-request-filter-head{align-items:flex-start;flex-direction:column}.admin-request-filter-options{gap:7px}.request-filter-option{font-size:.77rem;padding:6px 10px}.admin-rate-room-grid{grid-template-columns:1fr}.admin-rate-room-image{width:83px;height:72px}}
 
 
-/* Versión 0.7 — CRUD de categorías. Interfaz administrativa sin librerías de CSS. */
-.admin-room-header{display:flex;align-items:center;justify-content:space-between;gap:25px;flex-wrap:wrap;margin-bottom:25px}
-.admin-room-header h1{font-size:clamp(1.85rem,3.2vw,2.8rem);margin:8px 0}
-.admin-room-header .muted{max-width:740px;margin:0}
-.admin-room-grid{display:grid;grid-template-columns:minmax(300px,.9fr) minmax(0,1.1fr);gap:24px;align-items:start}
-.admin-room-editor h2,.admin-room-list h2{font-size:1.25rem;margin:0}
-.admin-room-fieldset{border:0;padding:0;margin:0;min-width:0}
-.admin-room-fields{display:grid;gap:17px;margin:20px 0}
-.admin-room-two-cols{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.admin-room-checkbox{margin-top:5px}
-.admin-room-list{min-width:0}
-.admin-room-count{font-size:.77rem;color:var(--forest);background:#edf4f0;padding:8px 12px;border-radius:20px;white-space:nowrap}
-.admin-room-items{list-style:none;padding:0;margin:12px 0 0}
-.admin-room-item{display:flex;justify-content:space-between;gap:14px;border-top:1px solid var(--line);padding:19px 0;align-items:center}
-.admin-room-item-details{min-width:0;flex:1;overflow-wrap:anywhere}
-.admin-room-item-details>strong{font-size:.96rem;color:var(--forest)}
-.admin-room-item-details p{margin:8px 0 1px;color:var(--muted);font-size:.84rem}
-.admin-room-item-details small{color:var(--muted);font-size:.73rem}
-.admin-room-item-actions{display:flex;flex-direction:column;align-items:stretch;gap:7px}
-.admin-room-status{display:inline-block;font-size:.68rem;font-weight:800;border-radius:20px;padding:4px 8px;margin-left:7px}
-.admin-room-status.is-active{background:#e6f3e9;color:#27603d}
-.admin-room-status.is-inactive{background:#f5eae5;color:#875438}
-.admin-room-danger{border-color:#c68d80;color:#912d24}
-@media(max-width:1050px){.admin-room-grid{grid-template-columns:1fr}}
-@media(max-width:620px){.admin-room-item{align-items:flex-start;flex-direction:column}.admin-room-item-actions{flex-direction:row}.admin-room-two-cols{grid-template-columns:1fr}.admin-room-header .btn{width:100%}}
+/* Administración de habitaciones (RF-07): categoría eliminada lógicamente.
+   Se diferencia visualmente pero permanece disponible para restauración. */
+.room-inactive{opacity:.77;background:#f8f9f7;border-radius:8px;padding-left:10px;padding-right:10px}
+.room-status-chip{display:inline-flex;vertical-align:middle;margin-left:6px;padding:3px 8px;border-radius:999px;font-size:.71rem;font-weight:700}
+.room-status-chip.is-active{background:#e7f3e9;color:#22513d}
+.room-status-chip.is-inactive{background:#f4e9e4;color:#824338}
+
+/* ===============================================================
+   Catálogo NETO y conversión orientativa de divisas (noviembre 2026).
+   Todos los valores oficiales y registros permanecen expresados en CLP.
+   =============================================================== */
+.page-title-with-currency{display:flex;align-items:start;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.page-title-with-currency .page-title{margin-bottom:26px}
+.currency-tools{display:flex;flex-direction:column;align-items:flex-start;gap:5px;margin:4px 0 13px}
+.currency-picker{display:flex;flex-direction:column;gap:5px;color:var(--forest);font-weight:700;font-size:.79rem}
+.currency-picker select{color:var(--forest);background:#fff;border:1px solid var(--line);border-radius:7px;padding:9px 32px 9px 12px;min-width:125px;min-height:39px;cursor:pointer}
+.currency-picker select:focus-visible{outline:3px solid #bb8b6077;outline-offset:2px}
+.currency-metadata{font-size:.69rem;color:#687a71;max-width:250px}
+.price-comparison .room-price{margin:14px 0 2px}
+.price-tax-label{display:inline;color:#667970;font-weight:600;font-size:.72rem}
+.reference-price{margin:9px 0 13px;line-height:1.4}
+.reference-price .price-tax-label{display:inline-block;margin-left:4px}
+.fx-estimate{display:block;font-weight:750;font-size:.8rem;color:#1b7668;line-height:1.65}
+.fx-estimate small{color:#74857c;font-weight:500;font-size:.7rem}
+.fx-quote-summary{background:#f4f8f5;border:1px solid #d7e5da;padding:10px 12px;border-radius:8px;margin:10px 0 13px;display:grid;gap:7px}
+.fx-quote-summary>span{font-size:.78rem;color:#47665c}
+.fx-quote-summary .fx-estimate{display:inline}
+.fx-quote-summary>small{color:#718079;font-size:.69rem;line-height:1.5}
+@media(max-width:520px){.currency-tools{margin:0 0 12px}.page-title-with-currency{gap:3px}.page-title-with-currency .page-title{margin-bottom:10px}.fx-quote-summary{padding:10px}}
+
+
+/* ================================================================
+   DIVISAS EN LA CABECERA (noviembre 2026)
+   Un único control junto al selector de idioma. No cambia ningún
+   valor oficial: la moneda base de las operaciones sigue siendo CLP.
+   ================================================================ */
+.header-currency{flex-shrink:0}
+.currency-picker-nav{
+  display:flex;align-items:center;gap:6px;min-height:41px;
+  padding:0 9px;background:#f3f6f3;border:1px solid #e6ece7;
+  border-radius:9px;color:var(--forest);font-size:.81rem;font-weight:800;
+  cursor:pointer;
+}
+.currency-picker-nav:hover,.currency-picker-nav:focus-within{
+  background:#e9f0eb;border-color:#cfdbd2;
+}
+.currency-picker-nav:focus-within{outline:2px solid #b9794880;outline-offset:2px}
+.currency-picker-nav select{
+  width:4.25rem;min-width:0;min-height:37px;margin:0;padding:0;
+  background:transparent;border:0;color:var(--forest);
+  font-size:.81rem;font-weight:800;cursor:pointer;outline:none;
+  appearance:none;-webkit-appearance:none;
+}
+.currency-nav-icon{font-size:1rem;line-height:1;color:#a76737}
+.currency-nav-chevron{font-size:1rem;line-height:1;color:#586b63;pointer-events:none}
+/* Con el nuevo selector global, la navegación se contrae antes de desbordar. */
+@media(max-width:1150px) and (min-width:761px){
+  .site-header .header-inner{gap:12px}
+  .site-header .main-nav{display:none;position:absolute;top:100%;left:0;right:0;
+    padding:12px max(24px,calc((100vw - 1200px)/2));background:white;
+    border-bottom:1px solid var(--line);box-shadow:0 10px 20px #0001;z-index:20}
+  .site-header .main-nav.nav-open{display:flex;flex-direction:column;align-items:stretch;gap:0}
+  .site-header .main-nav a{padding:11px 8px}
+  .site-header .menu-toggle{display:block;order:3}
+  .site-header .header-actions{order:2;margin-left:auto}
+}
+@media(max-width:760px){
+  .site-header .main-nav{top:100%;z-index:20}
+  .currency-picker-nav{min-height:37px;padding:0 7px;gap:4px}
+  .currency-picker-nav select{width:3.65rem;min-height:34px;font-size:.75rem}
+  .currency-nav-icon{font-size:.9rem}
+}
+@media(max-width:850px){
+  /* Primera fila: marca + menú; segunda: divisa, idioma e inicio de sesión. */
+  .site-header .header-inner{padding-top:9px;padding-bottom:9px;gap:7px}
+  .site-header .brand{order:1;margin-right:auto}
+  .site-header .menu-toggle{order:2}
+  .site-header .header-actions{order:3;width:100%;flex:0 0 100%;
+    justify-content:flex-end;gap:7px}
+}
+@media(max-width:380px){
+  .site-header .nav-login{padding:8px 9px}
+  .currency-picker-nav{padding:0 5px}
+}
+
+/* ==========================================================
+   Gestor de medios: habitaciones, servicios y portada separada.
+   Tarjetas con miniaturas, estado pendiente y acciones móviles.
+   ========================================================== */
+.form-wide{grid-column:1 / -1;min-width:0}
+.photo-admin-manager{border:1px solid #e1e6df;background:#f9faf8;border-radius:12px;padding:18px;min-width:0}
+.photo-admin-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.photo-admin-heading h4{font-size:1.05rem;margin:0 0 5px}
+.photo-admin-heading p{margin:0}
+.photo-admin-manager>p.muted{margin:10px 0 15px}
+.photo-admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:13px;margin:12px 0}
+/* Cada tarjeta mantiene los botones visibles incluso con fotos verticales.
+   Antes el display:grid del preview permitia que una imagen alta desbordara
+   los 128 px y tapara los controles de mover/eliminar. */
+.photo-admin-tile{display:flex;flex-direction:column;background:#fff;border:1px solid #e1e6df;border-radius:10px;overflow:hidden;min-width:0}
+.photo-admin-preview{position:relative;display:block;flex:0 0 128px;height:128px;min-height:0;overflow:hidden;background:#e3e8e2}
+.photo-admin-preview img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.photo-admin-order,.photo-admin-pending{position:absolute;top:7px;right:7px;background:#183c3ae8;color:#fff;padding:4px 8px;border-radius:20px;font-weight:750;font-size:.7rem}
+.photo-admin-pending{background:#a9753f}
+.photo-admin-broken{position:absolute;inset:0;display:grid;place-items:center;color:#993e30;padding:12px;text-align:center;font-size:.78rem;font-weight:750}
+.photo-admin-broken[hidden]{display:none}
+.photo-admin-tile-actions{position:relative;z-index:1;display:flex;align-items:center;gap:5px;flex-wrap:wrap;min-height:51px;padding:9px;background:#fff}
+.photo-admin-tile-actions .btn{padding:5px 8px;min-height:30px;font-size:.72rem}
+.photo-admin-empty{font-size:.82rem;color:#6f8075;border:1px dashed #cdd7ce;border-radius:9px;padding:17px}
+.photo-admin-upload{margin-top:18px;border-top:1px solid #dfe7df;padding-top:15px}
+.photo-admin-upload>.muted{display:block;margin:8px 0}
+.photo-admin-manager .notice.warning{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+@media(max-width:620px){.photo-admin-manager{padding:12px}.photo-admin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.photo-admin-preview{height:106px;flex-basis:106px}.photo-admin-tile-actions .btn{flex:1}.photo-admin-heading .btn{width:100%}}
+
+/* Comentarios escritos por huéspedes: conservar saltos de línea sin desbordar tarjetas. */
+.request-client-comments{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.55}

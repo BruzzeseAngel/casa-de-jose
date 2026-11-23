@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import {Routes,Route} from 'react-router-dom';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
@@ -8,25 +8,17 @@ import Services from './pages/Services';
 import Quote from './pages/Quote';
 import Access from './pages/Access';
 import MyRequests from './pages/MyRequests';
-import ClientArea from './pages/ClientArea';
-import AdminRoute from './components/AdminRoute';
-import AdminRooms from './pages/AdminRooms';
+import Admin from './pages/Admin';
 
-export default function App() {
-  return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="habitaciones" element={<Rooms />} />
-        <Route path="habitaciones/:id" element={<RoomDetail />} />
-        <Route path="servicios" element={<Services />} />
-        <Route path="cotizar" element={<Quote />} />
-        <Route path="acceso" element={<Access />} />
-        <Route path="solicitudes-demo" element={<MyRequests />} />
-        <Route path="mis-solicitudes" element={<ProtectedRoute><ClientArea /></ProtectedRoute>} />
-        <Route path="administracion" element={<AdminRoute><AdminRooms /></AdminRoute>} />
-        <Route path="*" element={<div className="container section"><h1>Página no encontrada</h1></div>} />
-      </Route>
-    </Routes>
-  );
-}
+// Mapa de pantallas que sigue el árbol funcional del informe de la semana 5.
+export default function App(){return <Routes><Route element={<Layout/>}>
+  <Route index element={<Home/>}/>
+  <Route path="habitaciones" element={<Rooms/>}/>
+  <Route path="habitaciones/:id" element={<RoomDetail/>}/>
+  <Route path="servicios" element={<Services/>}/>
+  <Route path="cotizar" element={<Quote/>}/>
+  <Route path="acceso" element={<Access/>}/>
+  <Route path="mis-solicitudes" element={<ProtectedRoute><MyRequests/></ProtectedRoute>}/>
+  <Route path="admin" element={<ProtectedRoute soloAdmin><Admin/></ProtectedRoute>}/>
+  <Route path="*" element={<main className="container section"><h1>Página no encontrada</h1></main>}/>
+</Route></Routes>}

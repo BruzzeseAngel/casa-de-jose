@@ -1,57 +1,27 @@
-# La Casa de José — Plataforma web multilingüe
+# La Casa de José — Proyecto de título
 
-Proyecto de Título de Ingeniería en Informática, IPLACEX (2026). Canal complementario para el Hostal La Casa de José, San Pedro de Atacama, Chile. **Una solicitud no equivale a una reserva confirmada**: la disponibilidad se revisa manualmente con el hostal y Booking.
+Plataforma web multilingüe para el Hostal La Casa de José (San Pedro de Atacama, Chile). Proyecto de título de Ingeniería en Informática, IPLACEX, 2026.
 
-## Estado del repositorio: integración progresiva v0.7.0
+> **Estado del repositorio: etapa de alineación 0.7.5.** A partir de este commit, el código del **frontend** (`src/`, `tests/`, `scripts/`, `index.html`, `vite.config.js` y dependencias) proviene **sin modificaciones funcionales** de la copia definitiva entregada como `Proyecto(2).zip` (21/11/2026). Las fechas de publicación de GitHub representan integración de archivos, no necesariamente sus fechas originales de desarrollo. El `package.json` conserva la versión `1.0.0` del proyecto fuente, aunque este commit se denomine parche 7.5.
 
-Este repositorio publica por módulos una implementación ya elaborada del proyecto de título. Las fechas de integración a GitHub no representan necesariamente las fechas de desarrollo original del código.
+## Alcance del proyecto definitivo (frontend incorporado)
 
-### Funcionalidades disponibles
+- Portada, habitaciones, servicios e instalaciones en cinco idiomas: ES, EN, PT, DE y FR.
+- Cotización multihabitación: fechas, stock, huéspedes, desglose neto/IVA (19 %), precios referenciales y selector informativo de divisas.
+- Formulario de solicitud con nombre, correo, teléfono opcional y **comentarios opcionales (máximo 500 caracteres)**.
+- Registro e inicio de sesión con Firebase Authentication; vista privada de solicitudes.
+- Administración unificada en **`/admin`**: habitaciones (baja lógica), tarifas por temporada, solicitudes e historial, servicios y fotografías con Firebase Storage.
+- En modo Firebase, las operaciones sensibles utilizan las Cloud Functions y el backend desplegado por separado. El envío de una solicitud **no** constituye una reserva confirmada; la confirmación corresponde al hostal.
 
-- Portada, catálogo, fichas de habitaciones, servicios y selector de idiomas (ES/EN/PT/DE/FR).
-- Cotizaciones orientativas de demostración con cálculo de noches, subtotal neto, IVA del 19 % y total.
-- Solicitudes **ficticias** almacenadas temporalmente en la pestaña mediante `sessionStorage`, sin guardar datos de contacto.
-- Firebase Authentication: registro, inicio/cierre de sesión y recuperación de contraseña (en modo Firebase).
-- Lectura pública de habitaciones, servicios y tarifas desde Cloud Firestore, con carga y errores controlados.
-- **Nuevo v0.7:** panel `/administracion` para gestionar habitaciones: crear, visualizar (incluidas desactivadas), editar, retirar del catálogo y restaurar.
-- La eliminación de habitaciones es **lógica** (`activa=false`); se conservan documentos, fotografías, tarifas y referencias históricas.
-- El catálogo público se recarga después de cambios administrativos en la misma sesión.
-- 5 idiomas para la web pública. El módulo administrativo de esta etapa está en español.
+## Alcance de **esta publicación GitHub 0.7.5**
 
-### Qué no está incorporado aún
+Se han reemplazado las versiones experimentales del frontend publicadas hasta 0.7.0 por los **archivos exactos del frontend definitivo**. Dejan de existir `/administracion`, `/solicitudes-demo` y el `sessionStorage` de solicitudes ficticias de los parches intermedios; se restauran `/admin`, `/mis-solicitudes`, los formularios y componentes originales y las reglas de negocio del frontend. **No se cambia el proyecto desplegado en Firebase Hosting** al subir este commit a GitHub.
 
-La gestión de fotografías con Firebase Storage, el CRUD de servicios y tarifas, la persistencia de solicitudes reales, el historial administrativo y las Cloud Functions del proyecto completo se integrarán en futuras etapas. La página `/mis-solicitudes` sigue siendo informativa. No se realizan pagos ni se sincroniza automáticamente la disponibilidad con Booking.
+**Todavía no están incorporadas las Cloud Functions para desplegar en este repositorio**: únicamente se incluyen `functions/pricing.js` y `functions/package.json` porque las pruebas originales de IVA utilizan ese módulo compartido. Quedan pendientes `firestore.rules`, `storage.rules`, `firebase.json`, `firestore.indexes.json`, la implementación de Cloud Functions y las guías de despliegue del backend definitivo. Se integrarán literalmente desde la misma copia fuente en parches siguientes, tras revisar su configuración. Hasta entonces, el repositorio se puede probar localmente en modo demostración. Para usar operaciones reales se requiere un proyecto Firebase ya configurado, funciones desplegadas y reglas de seguridad vigentes. No uses el repositorio parcial para desplegar backend ni reglas.
 
-## Dos modos de funcionamiento
+## Inicio local
 
-**Demostración** (predeterminado, `VITE_DEMO_MODE=true` o ausente): se muestran habitaciones, tarifas y servicios ilustrativos. `/administracion` ofrece una **vista informativa de solo lectura**; no permite escrituras ni cuentas reales.
-
-**Firebase** (`VITE_DEMO_MODE=false` con variables públicas correctas): lee Firestore, habilita Authentication y permite la administración únicamente con una sesión cuyo token tenga `admin: true` como **custom claim verificada por Firebase**. Un usuario cliente no puede acceder al módulo. El rol **no** se obtiene de una variable local ni se asigna desde la interfaz.
-
-**Seguridad crítica:** la navegación protegida NO sustituye a las reglas del servidor. Antes de usar el panel con datos reales, las reglas de Firestore deben permitir `create/update/delete` de `/habitaciones/{habitacionId}` **solo** si `request.auth.token.admin == true`. Los clientes solo deben leer habitaciones activas; las tarifas siguen siendo de solo lectura pública según las reglas del proyecto. **Este parche no despliega ni reemplaza reglas**. Nunca uses `allow read, write: if true`.
-
-Las custom claims deben otorgarse desde un entorno administrativo confiable mediante Firebase Admin SDK, nunca desde la aplicación web. Si un usuario recibe la claim estando conectado, deberá renovar su token (por ejemplo, cerrando sesión y volviendo a entrar). No guardes service accounts ni credenciales privadas en GitHub.
-
-## Modelo de habitaciones utilizado
-
-```text
-/habitaciones/{habitacionId}
-  nombre: string
-  capacidad: number
-  stockTotal: number
-  tamanoM2: number
-  camas: string[]
-  comodidades: string[]
-  fotos: string[]
-  activa: boolean
-  /tarifas/{tarifaId}   # Solo lectura en esta etapa
-```
-
-Una categoría nueva comienza con `activa=false` por precaución. El campo `fotos` se conserva al editar y no se sobrescribe, pero todavía no se suben nuevas fotografías desde el panel. La operación «Eliminar» usa una baja lógica reversible.
-
-## Instalación
-
-Requiere **Node.js >=20.19** y npm.
+Requiere Node.js `>=20.19.0` y npm.
 
 ```bash
 npm ci
@@ -60,35 +30,33 @@ npm run build
 npm run dev
 ```
 
-La vista local suele abrir en `http://127.0.0.1:5173`.
+Sin archivo `.env`, el proyecto abre en **modo demostración** (`VITE_DEMO_MODE` distinto de `false`), con precios y contenidos ilustrativos. En este modo no se envían solicitudes ni se crean cuentas reales.
 
-Para activar Firebase, copia `.env.example` a `.env` en la raíz y define `VITE_DEMO_MODE=false` con los parámetros web `VITE_FIREBASE_*`. **No subas `.env`**: las variables `VITE_*` se exponen al navegador y no deben contener secretos.
+Para conectarlo a Firebase, copia `.env.example` a `.env`, completa **solo los datos públicos de configuración web** y utiliza `VITE_DEMO_MODE=false`. Nunca publiques `.env`, credenciales Admin SDK, claves privadas ni tokens de correo. La configuración real debe validarse en tu entorno antes de activarla.
 
-### Comprobaciones sugeridas
+## Pruebas y estructura
 
-1. En demo: abre `/administracion`; debe mostrar habitaciones ficticias y botones deshabilitados.
-2. En modo Firebase, con usuario corriente: comprueba que `/administracion` muestra «Acceso restringido».
-3. Con una cuenta con claim `admin=true`: abre `/administracion`, crea una habitación de prueba inicialmente **inactiva**, edítala y comprueba los cambios.
-4. Activa la categoría; confirma que aparece en `/habitaciones`. Luego elimínala lógicamente y verifica que desaparece del catálogo público pero continúa disponible para restaurarla en Administración.
-5. Comprueba que las tarifas antiguas no se eliminan y que el formulario sigue mostrando sus fotografías existentes.
-6. **Evita cambios sobre registros reales** hasta revisar las reglas de seguridad y disponer de respaldo.
-
-Las pruebas `node:test` cubren datos y validaciones, pero no sustituyen la verificación manual del SDK de Firebase, las reglas desplegadas ni la interfaz real.
-
-## Estructura relevante
+`npm test` ejecuta pruebas unitarias de cotización, IVA, divisas, traducciones, filtros de solicitudes y gestión de fotografías. No sustituye las pruebas reales de Firestore, Authentication, Storage, Cloud Functions ni el despliegue.
 
 ```text
 src/
-  pages/AdminRooms.jsx          # Panel de habitaciones (v0.7)
-  components/AdminRoute.jsx     # Restricción de acceso administrativo
-  context/AuthContext.jsx      # Sesión y custom claim admin
-  context/CatalogContext.jsx   # Catálogo público y recarga
-  lib/adminRoomsFirestore.js   # Lecturas/escrituras del panel
-  lib/adminRoomsModel.mjs      # Validación y normalización
-  lib/catalogFirestore.js      # Lectura pública (v0.6)
-tests/adminRoomsModel.test.mjs  # Pruebas unitarias del módulo
+  App.jsx                  Rutas definitivas
+  pages/                   Portada, habitaciones, cotización, acceso, solicitudes, Admin.jsx
+  components/              Galería, selector de divisas, PhotoManager, RoomCard
+  context/                 Auth, Language, Currency
+  lib/                     data.js (Firestore/Storage/Functions), quote.mjs y utilidades
+  styles.css               Diseño definitivo
+scripts/                   Utilidades administrativas del proyecto fuente
+public/flags/              Iconos SVG de idiomas
+tests/                     Pruebas unitarias originales
 ```
 
-## Autor
+Los scripts `seed` y `admin` actúan sobre Firebase y **no deben ejecutarse sin revisar previamente el proyecto y los permisos**. Los valores de la demostración no constituyen precios oficiales del hostal.
 
-Angel Jose Ignacio Bruzzese Araya — Proyecto de Título, IPLACEX.
+## Criterio de continuidad
+
+**Fuente de verdad:** `Proyecto(2).zip`, que incluye el campo de comentarios y la corrección del estado del formulario de cotización. Los parches posteriores deben añadir los archivos originales faltantes, no reescribir los módulos del frontend sin una revisión y aprobación previa. Antes del último commit se verificará la igualdad de archivos funcionales con la fuente.
+
+## Autoría y contexto
+
+Proyecto de título presentado por Angel Jose Ignacio Bruzzese Araya, IPLACEX. Este repositorio registra la incorporación progresiva del código y no representa por sí solo una cronología de desarrollo individual.

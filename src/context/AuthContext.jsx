@@ -1,52 +1,27 @@
-import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { onIdTokenChanged, signOut } from 'firebase/auth';
-import { auth } from '../lib/firebase';
-
-const AuthContext = createContext(null);
-export function useAuth() {
-  const value = useContext(AuthContext);
-  if (!value) throw new Error('useAuth necesita AuthProvider');
-  return value;
-}
-
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [admin, setAdmin] = useState(false);
-  const [loading, setLoading] = useState(Boolean(auth));
-  const [error, setError] = useState(null);
-  const control = useRef(0);
-
-  useEffect(() => {
-    if (!auth) return undefined;
-    let mounted = true;
-    const unsubscribe = onIdTokenChanged(auth, async usuario => {
-      const version = ++control.current;
-      setLoading(true);
-      setAdmin(false);
-      setError(null);
-      setUser(usuario);
+import {createContext,useContext,useEffect,useState} from 'react';
+import {onAuthStateChanged,signOut} from 'firebase/auth';
+import {doc,getDoc} from 'firebase/firestore';
+import {DEMO,auth,db} from '../lib/firebase';
+const AuthCtx=createContext(null);
+export const useAuth=()=>useContext(AuthCtx);
+export function AuthProvider({children}) {
+  const [user,setUser]=useState(null),[perfil,setPerfil]=useState(null),[admin,setAdmin]=useState(false),[loading,setLoading]=useState(!DEMO);
+  useEffect(()=>{
+    if(DEMO) return;
+    // El rol administrativo se obtiene de custom claims; jamás de localStorage.
+    const stop=onAuthStateChanged(auth,async u=>{
       try {
-        if (usuario) {
-          // Custom claim emitida por Firebase Admin SDK. No confiar en roles de localStorage.
-          const token = await usuario.getIdTokenResult();
-          if (mounted && version === control.current) setAdmin(token.claims.admin === true);
+        setUser(u);setPerfil(null);setAdmin(false);
+        if(u) {
+          const [token,snap]=await Promise.all([u.getIdTokenResult(true),getDoc(doc(db,'usuarios',u.uid))]);
+          setAdmin(token.claims.admin===true);
+          if(snap.exists()) setPerfil(snap.data());
         }
-      } catch (err) {
-        console.error('No se pudo verificar el rol administrativo:', err);
-        if (mounted && version === control.current) setError('auth');
-      } finally {
-        if (mounted && version === control.current) setLoading(false);
-      }
-    }, err => {
-      if (mounted) { setUser(null); setAdmin(false); setError('auth'); setLoading(false); }
+      } catch(e){ console.error('No se pudo cargar el perfil',e); }
+      finally {setLoading(false);}
     });
-    return () => { mounted = false; ++control.current; unsubscribe(); };
-  }, []);
-
-  async function logout() {
-    if (auth) await signOut(auth);
-  }
-  return <AuthContext.Provider value={{ user, admin, loading, error, logout }}>
-    {children}
-  </AuthContext.Provider>;
+    return stop;
+  },[]);
+  const logout=()=>DEMO?Promise.resolve():signOut(auth);
+  return <AuthCtx.Provider value={{user,perfil,admin,loading,logout}}>{children}</AuthCtx.Provider>;
 }

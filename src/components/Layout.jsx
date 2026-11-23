@@ -1,101 +1,83 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
-import { useLanguage } from '../context/LanguageContext';
-import { DEMO_REQUEST_COPY } from '../lib/demoRequestCopy';
-import { AUTH_COPY } from '../lib/authCopy';
-import { useAuth } from '../context/AuthContext';
-import { DEMO } from '../lib/firebase';
+import {useEffect,useRef,useState} from 'react';
+import {NavLink,Outlet,Link} from 'react-router-dom';
+import {useLanguage} from '../context/LanguageContext';
+import {useAuth} from '../context/AuthContext';
+import {DEMO} from '../lib/firebase';
+import CurrencySelector from './CurrencySelector';
 
-// Navegación pública y selector de idiomas a partir del diseño original.
+// Banderas SVG locales: se ven correctamente incluso cuando Windows no muestra emojis de banderas.
+// El idioma almacenado continúa usando los códigos originales (es, en, pt, de, fr).
 const LANGUAGES = [
-  { code: 'es', name: 'Español' },
-  { code: 'en', name: 'English' },
-  { code: 'pt', name: 'Português' },
-  { code: 'de', name: 'Deutsch' },
-  { code: 'fr', name: 'Français' },
+  {code:'es', short:'ES', name:'Español'},
+  {code:'en', short:'EN', name:'English'},
+  {code:'pt', short:'PT', name:'Português (Brasil)'},
+  {code:'de', short:'DE', name:'Deutsch'},
+  {code:'fr', short:'FR', name:'Français'},
 ];
 
-export default function Layout() {
-  const { t, lang, setLang } = useLanguage();
-  const { user, admin } = useAuth();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const languageMenu = useRef(null);
-  const current = LANGUAGES.find(item => item.code === lang) ?? LANGUAGES[0];
-  const demoCopy = DEMO_REQUEST_COPY[lang] ?? DEMO_REQUEST_COPY.es;
-  const authCopy = AUTH_COPY[lang] ?? AUTH_COPY.es;
-  const accountLink = DEMO ? ['/solicitudes-demo', demoCopy.link]
-    : user ? ['/mis-solicitudes', authCopy.account] : ['/acceso', authCopy.signIn];
-  const links = [['/', t('home')], ['/habitaciones', t('rooms')], ['/servicios', t('services')], ['/cotizar', t('quote')], accountLink, ...(admin ? [['/administracion', 'Administración']] : [])];
+// Cabecera única para todas las páginas; menú accesible que se contrae en móviles.
+export default function Layout(){
+  const {t,lang,setLang}=useLanguage(); const {user,admin,logout}=useAuth();const [open,setOpen]=useState(false);
+  const languageRef=useRef(null);
+  const currentLanguage=LANGUAGES.find(item=>item.code===lang)||LANGUAGES[0];
 
-  useEffect(() => {
-    const closeOutside = event => {
-      if (languageMenu.current && !languageMenu.current.contains(event.target)) {
-        languageMenu.current.open = false;
+  // Cierra el menú al hacer clic fuera o presionar Escape, sin afectar la navegación móvil.
+  useEffect(()=>{
+    const onPointerDown=(event)=>{
+      if(languageRef.current&&!languageRef.current.contains(event.target)) languageRef.current.open=false;
+    };
+    const onKeyDown=(event)=>{
+      if(event.key==='Escape'&&languageRef.current?.open){
+        languageRef.current.open=false;
+        languageRef.current.querySelector('summary')?.focus();
       }
     };
-    const closeEsc = event => {
-      if (event.key === 'Escape' && languageMenu.current?.open) {
-        languageMenu.current.open = false;
-        languageMenu.current.querySelector('summary')?.focus();
-      }
+    document.addEventListener('pointerdown',onPointerDown);
+    document.addEventListener('keydown',onKeyDown);
+    return ()=>{
+      document.removeEventListener('pointerdown',onPointerDown);
+      document.removeEventListener('keydown',onKeyDown);
     };
-    document.addEventListener('pointerdown', closeOutside);
-    document.addEventListener('keydown', closeEsc);
-    return () => {
-      document.removeEventListener('pointerdown', closeOutside);
-      document.removeEventListener('keydown', closeEsc);
-    };
-  }, []);
-
-  return (
-    <div className="app-shell">
-      <header className="site-header">
-        <div className="header-inner container">
-          <Link to="/" className="brand" aria-label="La Casa de José — inicio">
-            <span className="brand-main">CASA DE JOSÉ</span>
-            <span className="brand-sub">SAN PEDRO DE ATACAMA</span>
-          </Link>
-          <button className="menu-toggle" type="button"
-            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
-            aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? '✕' : '☰'}
-          </button>
-          <nav className={`main-nav ${menuOpen ? 'nav-open' : ''}`} aria-label="Navegación principal">
-            {links.map(([url, label]) => (
-              <NavLink key={url} end={url === '/'} to={url}
-                className={({ isActive }) => isActive ? 'nav-active' : ''}
-                onClick={() => setMenuOpen(false)}>{label}</NavLink>
-            ))}
-          </nav>
-          <div className="header-actions">
-            <details className="lang-picker" ref={languageMenu}>
-              <summary className="lang-picker-toggle" aria-label={`Idioma actual: ${current.name}. Seleccionar idioma`}>
-                <img className="lang-flag" src={`/flags/${current.code}.svg`} alt="" aria-hidden="true" />
-                <strong>{current.code.toUpperCase()}</strong>
-                <span aria-hidden="true">⌄</span>
-              </summary>
-              <div className="lang-picker-menu">
-                {LANGUAGES.map(item => (
-                  <button key={item.code} type="button" aria-current={lang === item.code ? 'true' : undefined}
-                    className={`lang-picker-option ${lang === item.code ? 'is-selected' : ''}`}
-                    onClick={() => { setLang(item.code); languageMenu.current.open = false; }}>
-                    <img className="lang-flag" src={`/flags/${item.code}.svg`} alt="" aria-hidden="true" />
-                    <span>{item.name}</span><small>{item.code.toUpperCase()}</small>
-                  </button>
-                ))}
-              </div>
-            </details>
+  },[]);
+  const links=[['/',t('home')],['/habitaciones',t('rooms')],['/servicios',t('services')],['/cotizar',t('quote')]];
+  return <div className="app-shell">
+    <header className="site-header"><div className="header-inner container">
+      <Link to="/" className="brand" aria-label="La Casa de José — inicio"><span className="brand-main">CASA DE JOSÉ</span><span className="brand-sub">SAN PEDRO DE ATACAMA</span></Link>
+      <button className="menu-toggle" type="button" aria-label={open?'Cerrar menú':'Abrir menú'} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?'✕':'☰'}</button>
+      <nav className={`main-nav ${open?'nav-open':''}`} aria-label="Navegación principal">
+        {links.map(([path,label])=><NavLink key={path} end={path==='/'} to={path} className={({isActive})=>isActive?'nav-active':''} onClick={()=>setOpen(false)}>{label}</NavLink>)}
+        {user&&<NavLink to={admin?'/admin':'/mis-solicitudes'} onClick={()=>setOpen(false)}>{admin?t('admin'):t('myRequests')}</NavLink>}
+      </nav>
+      <div className="header-actions">
+        {/* Divisa global: situada junto al idioma y compartida por todas las páginas. */}
+        <CurrencySelector/>
+        {/* Selector de idiomas con banderas SVG locales. Un <select> nativo no dibuja
+            las banderas emoji de forma consistente en navegadores de Windows. */}
+        <details className="lang-picker" ref={languageRef}>
+          <summary className="lang-picker-toggle" aria-label={`Idioma actual: ${currentLanguage.name}. Seleccionar idioma`}>
+            <img src={`/flags/${currentLanguage.code}.svg`} alt="" aria-hidden="true" className="lang-flag" />
+            <strong>{currentLanguage.short}</strong>
+            <span className="lang-chevron" aria-hidden="true">⌄</span>
+          </summary>
+          <div className="lang-picker-menu" aria-label="Idiomas disponibles">
+            {LANGUAGES.map(choice=><button key={choice.code} type="button"
+              className={`lang-picker-option ${lang===choice.code?'is-selected':''}`}
+              aria-current={lang===choice.code?'true':undefined}
+              onClick={()=>{
+                setLang(choice.code);
+                if(languageRef.current) languageRef.current.open=false;
+              }}>
+              <img src={`/flags/${choice.code}.svg`} alt="" aria-hidden="true" className="lang-flag" />
+              <span>{choice.name}</span>
+              <span className="lang-code">{choice.short}</span>
+            </button>)}
           </div>
-        </div>
-      </header>
-      <div className="demo-banner"><div className="container">{t('demo')}</div></div>
-      <main id="contenido"><Outlet /></main>
-      <footer className="footer">
-        <div className="container footer-inner">
-          <div><strong>CASA DE JOSÉ</strong><p>{t('footer')}</p></div>
-          <p>San Pedro de Atacama, Chile<br />{t('publicInfo')}</p>
-        </div>
-      </footer>
-    </div>
-  );
+        </details>
+        {user?<button className="nav-login" onClick={logout} type="button">{t('logout')}</button>:<Link className="nav-login" to="/acceso">{t('login')}</Link>}
+      </div>
+    </div></header>
+    {DEMO&&<div className="demo-banner"><div className="container">{t('demo')}</div></div>}
+    <main id="contenido"><Outlet/></main>
+    <footer className="footer"><div className="container footer-inner"><div><strong>CASA DE JOSÉ</strong><p>{t('footer')}</p></div><p>San Pedro de Atacama, Chile<br/>{t('publicInfo')}</p></div></footer>
+  </div>;
 }
