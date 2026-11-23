@@ -1,41 +1,37 @@
-# La Casa de José — Proyecto de título
+# La Casa de José — Plataforma web multilingüe
 
-Plataforma web multilingüe para el Hostal La Casa de José (San Pedro de Atacama, Chile). Proyecto de título de Ingeniería en Informática, IPLACEX, 2026.
+Proyecto de título de Ingeniería en Informática (IPLACEX, 2026) para el Hostal La Casa de José, ubicado en San Pedro de Atacama, Chile.
 
-> **Estado del repositorio: etapa de integración 0.9 (configuración Firebase original).** A partir de este commit, el código del **frontend** (`src/`, `tests/`, `scripts/`, `index.html`, `vite.config.js` y dependencias) proviene **sin modificaciones funcionales** de la copia definitiva entregada como `Proyecto(2).zip` (21/11/2026). Las fechas de publicación de GitHub representan integración de archivos, no necesariamente sus fechas originales de desarrollo. El `package.json` conserva la versión `1.0.0` del proyecto fuente, aunque esta entrega se denomine parche 09.
+## Objetivo y alcance
 
-## Alcance del proyecto definitivo (frontend incorporado)
+La aplicación ofrece un **canal directo complementario a Booking** para consultar habitaciones y servicios, calcular importes orientativos y enviar solicitudes de alojamiento. **Una solicitud no es una reserva confirmada**: el administrador debe comprobar la disponibilidad y comunicar su aceptación al huésped. No se realizan pagos en línea ni sincronización automática de inventario con Booking.
 
-- Portada, habitaciones, servicios e instalaciones en cinco idiomas: ES, EN, PT, DE y FR.
-- Cotización multihabitación: fechas, stock, huéspedes, desglose neto/IVA (19 %), precios referenciales y selector informativo de divisas.
-- Formulario de solicitud con nombre, correo, **teléfono obligatorio** y **comentarios opcionales (máximo 500 caracteres)**.
-- Registro e inicio de sesión con Firebase Authentication; vista privada de solicitudes.
-- Administración unificada en **`/admin`**: habitaciones (baja lógica), tarifas por temporada, solicitudes e historial, servicios y fotografías con Firebase Storage.
-- En modo Firebase, las operaciones sensibles utilizan las Cloud Functions y el backend desplegado por separado. El envío de una solicitud **no** constituye una reserva confirmada; la confirmación corresponde al hostal.
+Este repositorio contiene el **código funcional del proyecto de referencia `Proyecto(2).zip`**, incluido el formulario de comentarios opcionales. La incorporación a GitHub se realizó por etapas; **las fechas de los commits reflejan su publicación, no necesariamente las fechas originales de programación**. El número `1.0.0` de `package.json` se conserva del proyecto fuente; los números de «parche» identifican entregas de integración en GitHub.
 
-## Alcance de **esta publicación GitHub — parche 09**
+## Funcionalidades
 
-Los parches 7.5 y 08 incorporaron el **frontend y backend sin modificaciones funcionales** desde `Proyecto(2).zip`. El parche 09 incorpora **cinco archivos originales, sin alterar su contenido**:
+- **Público:** portada, catálogo de seis categorías de habitación, fichas y servicios; interfaz en español, inglés, portugués, alemán y francés.
+- **Cotización:** fechas, noches, cantidad de habitaciones, huéspedes, estimación neta, IVA chileno del 19 % y total; selector de otras monedas únicamente referencial. El servidor recalcula los importes al crear una solicitud.
+- **Solicitudes:** envío como invitado o cliente, con nombre, correo, teléfono y campo **Comentarios (opcional)** de hasta 500 caracteres. Se registra inicialmente en estado `Pendiente`; no implica confirmación.
+- **Clientes:** registro e ingreso con Firebase Authentication y consulta privada de sus solicitudes.
+- **Administración:** acceso protegido en `/admin`, gestión de habitaciones, tarifas, solicitudes e historial, servicios y fotografías; las habitaciones se retiran mediante desactivación lógica.
+- **Servicios Firebase:** Firestore, Storage, Cloud Functions y aviso al administrador mediante Resend cuando está configurado.
 
-- `firebase.json`: declara Firestore, Storage, Functions, Hosting y puertos de emuladores. Su Hosting usa el destino lógico `principal` y publica `dist/`.
-- `.firebaserc`: define el alias `pruebas` para el proyecto `casa-de-jose-pruebas` y asocia el destino `principal` con el sitio `hostal-la-casa-de-jose`.
-- `firestore.rules`: controla la lectura pública de documentos activos y las escrituras autorizadas mediante la custom claim `admin`; solicitudes y tarifas se escriben desde Cloud Functions.
-- `storage.rules`: admite lectura pública de fotografías de catálogo y restringe su administración a cuentas con claim `admin`, tamaño menor de 5 MiB y formatos JPEG/PNG/WebP.
-- `firestore.indexes.json`: declara el índice compuesto para consultar solicitudes por `usuarioId` y `createdAt`.
+El modo demostración contiene datos **ficticios**. Sus montos, descripciones y cantidades no son ofertas ni disponibilidad confirmada del hostal.
 
-**No se modifica ningún archivo de `src/`, `functions/` ni `tests/`.** Las reglas, índices y configuración se incluyen para completar el código del repositorio; **no se han desplegado desde GitHub** y su publicación mediante `git push` no modifica Firebase.
+## Tecnologías
 
-### Advertencia importante sobre Hosting
+- React 19, JavaScript, Vite 7, React Router y CSS propio adaptable a pantallas móviles.
+- Firebase Authentication, Cloud Firestore, Cloud Storage, Cloud Functions y Firebase Hosting.
+- Node.js 22 en las Cloud Functions.
+- Pruebas unitarias nativas con `node:test`.
 
-La configuración original asigna `hosting.target = principal` y lo vincula al **sitio** `hostal-la-casa-de-jose`. Ese destino no coincide nominalmente con la URL de pruebas `casa-de-jose-pruebas.web.app` utilizada durante el proyecto. **Antes de ejecutar cualquier `firebase deploy` desde esta copia**, verifica con Firebase CLI y Firebase Console el proyecto y el sitio de Hosting de destino. No cambies `.firebaserc` ni `firebase.json` sin acordarlo y probarlo antes.
+## Requisitos
 
-En esta etapa se publica **solamente en GitHub**; no se deben ejecutar `firebase deploy`, `npm run seed` ni `npm run admin` como parte de la instalación del parche.
+- Node.js `>=20.19.0` y npm, para frontend.
+- Para operar contra Firebase: proyecto habilitado, permisos adecuados y configuración web **pública** de la aplicación; el backend requiere sus propios parámetros y secreto de correo.
 
-No se publican archivos `.env`, variables privadas de Functions, cuentas de servicio ni `dist/`. Los nombres públicos de proyecto y sitio en `.firebaserc` no son credenciales de acceso.
-
-## Inicio local
-
-Requiere Node.js `>=20.19.0` y npm.
+## Ejecución local en modo demostración
 
 ```bash
 npm ci
@@ -44,60 +40,67 @@ npm run build
 npm run dev
 ```
 
-Sin archivo `.env`, el proyecto abre en **modo demostración** (`VITE_DEMO_MODE` distinto de `false`), con precios y contenidos ilustrativos. En este modo no se envían solicitudes ni se crean cuentas reales.
+Abre la URL local que indique Vite. Si no existe `.env`, la aplicación utiliza datos demostrativos (`VITE_DEMO_MODE` es distinto de `false`). En este modo **no se envían solicitudes reales**.
 
-Para conectarlo a Firebase, copia `.env.example` a `.env`, completa **solo los datos públicos de configuración web** y utiliza `VITE_DEMO_MODE=false`. Nunca publiques `.env`, credenciales Admin SDK, claves privadas ni tokens de correo. La configuración real debe validarse en tu entorno antes de activarla.
+Si necesitas crear `.env`, copia `.env.example` y mantén `VITE_DEMO_MODE=true`. El archivo `.env` **no debe publicarse**.
 
-## Pruebas y estructura
-
-`npm test` ejecuta pruebas unitarias del frontend: cotización, IVA, divisas, traducciones, filtros de solicitudes y gestión de fotografías. Para probar el backend desde `functions/` utiliza `npm test`. Estas pruebas puras no sustituyen la comprobación de Firestore, Authentication, Storage, seguridad y notificaciones reales.
+### Pruebas del backend
 
 ```bash
-# Desde la raíz del repositorio
-npm test
-npm run build
-
-# Luego, en el directorio functions
 cd functions
 npm ci
 npm test
 cd ..
 ```
 
+Estas pruebas verifican lógica pura; no sustituyen pruebas reales con Auth, Firestore, Storage, Functions, Hosting ni Resend.
+
+## Estructura del repositorio
 
 ```text
 src/
-  App.jsx                  Rutas definitivas
-  pages/                   Portada, habitaciones, cotización, acceso, solicitudes, Admin.jsx
-  components/              Galería, selector de divisas, PhotoManager, RoomCard
-  context/                 Auth, Language, Currency
-  lib/                     data.js (Firestore/Storage/Functions), quote.mjs y utilidades
-  styles.css               Diseño definitivo
-scripts/                   Utilidades administrativas del proyecto fuente
-public/flags/              Iconos SVG de idiomas
-tests/                     Pruebas unitarias originales
+  App.jsx                 Rutas públicas, de cliente y administrador
+  pages/                  Inicio, habitaciones, servicios, cotización, acceso y administración
+  components/             Tarjetas, galería, gestión fotográfica y selector de divisas
+  context/                Sesión, traducciones y divisas
+  lib/data.js             Integración con Firestore, Storage y Cloud Functions
+  lib/quote.mjs           Vista previa de cotización
+  styles.css              Diseño adaptable
 functions/
-  index.js                 Funciones crearSolicitud, guardarTarifa, actualizarSolicitud
-  notificarNuevaSolicitud.js  Aviso de solicitudes mediante Resend
-  pricing.js               Fechas, validaciones y cálculos de precios e IVA
-  comentarios.js           Normaliza el campo opcional del huésped
-  correoContenido.js       Contenido del correo escapando HTML
-  *.test.js                Pruebas unitarias del backend
-firebase.json              Firebase Hosting, Firestore, Storage, Functions y emuladores
-.firebaserc                Alias y destino de Hosting originales (revisar antes de desplegar)
-firestore.rules            Seguridad de Cloud Firestore
-storage.rules              Seguridad de Firebase Storage
-firestore.indexes.json     Índice compuesto de solicitudes
+  index.js                Crear solicitud, guardar tarifa y actualizar solicitud
+  notificarNuevaSolicitud.js  Aviso administrativo por Resend
+  pricing.js              Reglas de precios y cálculo de IVA en el servidor
+  comentarios.js          Normalización de comentarios del huésped
+  correoContenido.js      Contenido seguro del mensaje
+  *.test.js               Pruebas de backend
+scripts/                   Utilidades de carga demo y permisos administrativos
+tests/                     Pruebas del frontend
+public/flags/              Recursos locales del selector de idioma
+firebase.json             Hosting, Functions, Firestore, Storage y emuladores
+.firebaserc               Alias y destino de Hosting de la fuente original
+firestore.rules            Reglas de acceso a la base de datos
+storage.rules              Reglas para almacenamiento de fotografías
+firestore.indexes.json     Índices de consultas
+docs/                      Arquitectura, pruebas, seguridad y auditoría de integración
 ```
 
-Las Cloud Functions y la configuración Firebase provienen **sin cambios** desde el ZIP definitivo. El parche 09 solo incorpora archivos de configuración y reglas; no añade nuevas funcionalidades ni despliega servicios. Las variables de correo de Firebase son `RESEND_API_KEY` (secreto), `ADMIN_EMAIL`, `RESEND_FROM` y `SITE_URL` (parámetros del servidor). No coloques estos datos en el código cliente ni los subas a GitHub.
+## Documentación
 
-Los scripts `seed` y `admin` actúan sobre Firebase y **no deben ejecutarse sin revisar previamente el proyecto y los permisos**. Los valores de la demostración no constituyen precios oficiales del hostal.
+- [Arquitectura y flujo de datos](docs/ARQUITECTURA.md)
+- [Pruebas y validación](docs/PRUEBAS_Y_VALIDACION.md)
+- [Configuración, seguridad y despliegue](docs/SEGURIDAD_Y_DESPLIEGUE.md)
+- [Verificación de integridad de la integración](docs/INTEGRIDAD.md)
 
-## Criterio de continuidad
+## Seguridad y despliegue
 
-**Fuente de verdad:** `Proyecto(2).zip`, que incluye el campo de comentarios y la corrección del estado del formulario de cotización. El parche final se dedicará a documentar y verificar la paridad con la fuente, sin reescribir el frontend ni el backend sin revisión y aprobación previa. Antes del último commit se verificará la igualdad de archivos funcionales con la fuente.
+**No ejecutes `firebase deploy` ni scripts de administración basándote solamente en haber clonado el repositorio.** La configuración original vincula el destino `principal` de Hosting al sitio `hostal-la-casa-de-jose`, que debe comprobarse respecto del sitio de pruebas `casa-de-jose-pruebas` antes de publicar. Lee [Seguridad y despliegue](docs/SEGURIDAD_Y_DESPLIEGUE.md).
 
-## Autoría y contexto
+Nunca subas `.env`, `functions/.env*`, claves de cuenta de servicio, tokens privados ni secretos de Resend. Las variables `VITE_*` se incorporan al cliente web y no deben contener secretos. El código fuente **no** incluye ni reemplaza los documentos existentes de Firestore, las imágenes almacenadas en Storage, los usuarios de Authentication ni los parámetros y secretos configurados en Firebase.
 
-Proyecto de título presentado por Angel Jose Ignacio Bruzzese Araya, IPLACEX. Este repositorio registra la incorporación progresiva del código y no representa por sí solo una cronología de desarrollo individual.
+## Estado de validación
+
+En la auditoría del cierre de integración se ejecutaron **35 pruebas del frontend y 21 del backend, todas aprobadas**. La compilación de Vite, las pruebas de integración con Firebase y la verificación del sitio publicado deben completarse en el entorno del proyecto. No se afirma que estas verificaciones se hayan ejecutado automáticamente.
+
+## Contexto académico
+
+Repositorio de integración y documentación del proyecto de título de Angel Jose Ignacio Bruzzese Araya, IPLACEX. Las publicaciones de GitHub registran la incorporación progresiva de una implementación elaborada previamente y **no documentan por sí mismas autoría individual ni una cronología de desarrollo desde cero**.
