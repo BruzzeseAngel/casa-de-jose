@@ -84,6 +84,28 @@ firestore.indexes.json     Índices de consultas
 docs/                      Arquitectura, pruebas, seguridad y auditoría de integración
 ```
 
+## Mapa de persistencia y permisos (Cloud Firestore y Storage)
+ 
+La base de datos documental se organiza en las siguientes rutas:
+ 
+```text
+/habitaciones/{habitacionId}
+  /tarifas/{tarifaId}
+/usuarios/{usuarioId}
+/solicitudes/{solicitudId}
+  /historial/{historialId}
+/servicios/{servicioId}
+/configuracion/portada
+```
+ 
+- **Frontend (`src/`):** React renderiza páginas, formularios y paneles; `src/lib/data.js` centraliza lecturas por SDK y las llamadas a Cloud Functions. Las lecturas del cliente quedan sujetas a las reglas de Firebase.
+- **Backend (`functions/`):** `index.js` implementa operaciones protegidas, como la creación de solicitudes y la actualización de tarifas y solicitudes; `pricing.js` valida los importes, y `notificarNuevaSolicitud.js` gestiona la notificación administrativa mediante Resend cuando está configurado.
+- **Firestore (`firestore.rules`):** define los permisos de acceso para colecciones y documentos según identidad y autorización. El archivo `firestore.indexes.json` declara un índice compuesto sobre `solicitudes` (`usuarioId` ascendente y `createdAt` descendente). La existencia de la definición en GitHub no demuestra por sí sola que el índice esté desplegado.
+- **Storage (`storage.rules`):** define restricciones para los archivos fotográficos. Las fotografías residen en Storage y sus referencias se conservan en documentos de Firestore.
+- **Configuración (`firebase.json`):** relaciona Hosting, Functions, Firestore, Storage y emuladores. La aplicación publicada y el repositorio de código son recursos relacionados, pero no contienen necesariamente el mismo estado operativo en un instante dado.
+ 
+Consulta [Arquitectura y flujo de datos](docs/ARQUITECTURA.md) y [Configuración, seguridad y despliegue](docs/SEGURIDAD_Y_DESPLIEGUE.md) para más detalles. Las cuentas, datos reales, claves privadas y secretos no están incluidos en GitHub.
+
 ## Documentación
 
 - [Arquitectura y flujo de datos](docs/ARQUITECTURA.md)
