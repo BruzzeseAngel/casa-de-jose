@@ -2,9 +2,15 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     // La autorización administrativa se decide por una custom claim de Auth.
-    function signedIn() { return request.auth != null; }
-    function admin() { return signedIn() && request.auth.token.admin == true; }
-    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+    function signedIn() {
+      return request.auth != null;
+    }
+    function admin() {
+      return signedIn() && request.auth.token.admin == true;
+    }
+    function owner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
 
     match /habitaciones/{habitacionId} {
       allow read: if admin() || resource.data.activa == true;
@@ -29,6 +35,7 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Las solicitudes contienen datos privados: se restringen las lecturas y se delegan escrituras sensibles.
     match /solicitudes/{solicitudId} {
       // Una consulta donde usuarioId == auth.uid permite ver solo solicitudes propias.
       allow read: if admin() || (signedIn() && resource.data.usuarioId == request.auth.uid);

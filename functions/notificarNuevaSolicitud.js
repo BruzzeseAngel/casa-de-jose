@@ -2,16 +2,15 @@
 // RF-12 / CU-10: aviso por correo ante una SOLICITUD NUEVA.
 // La clave privada NUNCA se carga en React ni se guarda en .env de Vite.
 // Esta función no cambia montos, estados ni el flujo de creación de solicitudes.
-const {onDocumentCreated} = require('firebase-functions/v2/firestore');
-const {defineSecret, defineString} = require('firebase-functions/params');
+const { onDocumentCreated } = require('firebase-functions/v2/firestore');
+const { defineSecret, defineString } = require('firebase-functions/params');
 const logger = require('firebase-functions/logger');
-const {crearCorreoAdministrativo} = require('./correoContenido');
-
+const { crearCorreoAdministrativo } = require('./correoContenido');
 const RESEND_API_KEY = defineSecret('RESEND_API_KEY');
 const ADMIN_EMAIL = defineString('ADMIN_EMAIL');
 const RESEND_FROM = defineString('RESEND_FROM');
 const SITE_URL = defineString('SITE_URL');
-
+// El disparador reacciona a la creación de un documento; no depende de una acción posterior del navegador.
 exports.notificarNuevaSolicitud = onDocumentCreated({
   document: 'solicitudes/{solicitudId}',
   region: 'southamerica-west1',
@@ -19,7 +18,8 @@ exports.notificarNuevaSolicitud = onDocumentCreated({
   maxInstances: 3,
   retry: false, // Evita reintentos ilimitados si el proveedor devuelve un error permanente.
 }, async (event) => {
-  if (!event.data) return;
+  if (!event.data)
+    return;
   const solicitudId = event.params.solicitudId;
   const apiKey = RESEND_API_KEY.value();
   const destinatario = ADMIN_EMAIL.value()?.trim();
@@ -50,11 +50,12 @@ exports.notificarNuevaSolicitud = onDocumentCreated({
     });
     if (!response.ok) {
       // No incluir el cuerpo HTTP en logs: podría contener datos privados.
-      logger.error('Resend rechazó la notificación', {solicitudId, status: response.status});
+      logger.error('Resend rechazó la notificación', { solicitudId, status: response.status });
       return;
     }
-    logger.info('Notificación al administrador solicitada a Resend', {solicitudId});
-  } catch (err) {
-    logger.error('No fue posible contactar a Resend', {solicitudId, tipo: err?.name || 'Error'});
+    logger.info('Notificación al administrador solicitada a Resend', { solicitudId });
+  }
+  catch (err) {
+    logger.error('No fue posible contactar a Resend', { solicitudId, tipo: err?.name || 'Error' });
   }
 });

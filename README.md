@@ -111,7 +111,7 @@ Consulta [Arquitectura y flujo de datos](docs/ARQUITECTURA.md) y [Configuración
 - [Arquitectura y flujo de datos](docs/ARQUITECTURA.md)
 - [Pruebas y validación](docs/PRUEBAS_Y_VALIDACION.md)
 - [Configuración, seguridad y despliegue](docs/SEGURIDAD_Y_DESPLIEGUE.md)
-- [Verificación de integridad de la integración](docs/INTEGRIDAD.md)
+- [Integridad y verificación del proyecto](docs/INTEGRIDAD.md)
 
 ## Seguridad y despliegue
 

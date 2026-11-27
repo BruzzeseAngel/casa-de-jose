@@ -1,7 +1,10 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    function admin() { return request.auth != null && request.auth.token.admin == true; }
+    // El permiso de escritura se comprueba en Storage mediante la claim del token autenticado.
+    function admin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
     match /habitaciones/{habitacionId}/{archivo} {
       // Las fotos del catálogo son públicas; nunca almacenar aquí documentos privados.
       allow read: if true;
