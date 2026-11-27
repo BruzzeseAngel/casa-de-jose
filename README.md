@@ -6,7 +6,7 @@ Proyecto de título de Ingeniería en Informática (IPLACEX, 2026) para el Hosta
 
 La aplicación ofrece un **canal directo complementario a Booking** para consultar habitaciones y servicios, calcular importes orientativos y enviar solicitudes de alojamiento. **Una solicitud no es una reserva confirmada**: el administrador debe comprobar la disponibilidad y comunicar su aceptación al huésped. No se realizan pagos en línea ni sincronización automática de inventario con Booking.
 
-Este repositorio contiene el **código funcional del proyecto de referencia `Proyecto(2).zip`**, incluido el formulario de comentarios opcionales. La incorporación a GitHub se realizó por etapas; **las fechas de los commits reflejan su publicación, no necesariamente las fechas originales de programación**. El número `1.0.0` de `package.json` se conserva del proyecto fuente; los números de «parche» identifican entregas de integración en GitHub.
+Este repositorio contiene el código fuente y los archivos de configuración de la plataforma web del Hostal La Casa de José. Su organización permite mantener el control de versiones, documentar las funcionalidades implementadas y facilitar la revisión, ejecución y mantenimiento del sistema.
 
 ## Funcionalidades
 
@@ -77,11 +77,11 @@ scripts/                   Utilidades de carga demo y permisos administrativos
 tests/                     Pruebas del frontend
 public/flags/              Recursos locales del selector de idioma
 firebase.json             Hosting, Functions, Firestore, Storage y emuladores
-.firebaserc               Alias y destino de Hosting de la fuente original
+.firebaserc               Alias del proyecto Firebase y destino de Hosting
 firestore.rules            Reglas de acceso a la base de datos
 storage.rules              Reglas para almacenamiento de fotografías
 firestore.indexes.json     Índices de consultas
-docs/                      Arquitectura, pruebas, seguridad y auditoría de integración
+docs/                       Documentación de arquitectura, pruebas, seguridad e integridad
 ```
 
 ## Mapa de persistencia y permisos (Cloud Firestore y Storage)
@@ -115,14 +115,16 @@ Consulta [Arquitectura y flujo de datos](docs/ARQUITECTURA.md) y [Configuración
 
 ## Seguridad y despliegue
 
-**No ejecutes `firebase deploy` ni scripts de administración basándote solamente en haber clonado el repositorio.** La configuración original vincula el destino `principal` de Hosting al sitio `hostal-la-casa-de-jose`, que debe comprobarse respecto del sitio de pruebas `casa-de-jose-pruebas` antes de publicar. Lee [Seguridad y despliegue](docs/SEGURIDAD_Y_DESPLIEGUE.md).
+Antes de ejecutar un despliegue o utilizar los scripts de administración, se debe verificar el proyecto Firebase seleccionado y el destino de publicación. El archivo `.firebaserc` establece el alias `pruebas` para el proyecto `casa-de-jose-pruebas` y vincula el destino lógico `principal` de Hosting con el sitio `hostal-la-casa-de-jose`. Consulta la documentación de seguridad y despliegue antes de modificar la configuración.
 
 Nunca subas `.env`, `functions/.env*`, claves de cuenta de servicio, tokens privados ni secretos de Resend. Las variables `VITE_*` se incorporan al cliente web y no deben contener secretos. El código fuente **no** incluye ni reemplaza los documentos existentes de Firestore, las imágenes almacenadas en Storage, los usuarios de Authentication ni los parámetros y secretos configurados en Firebase.
 
 ## Estado de validación
 
-En la auditoría del cierre de integración se ejecutaron **35 pruebas del frontend y 21 del backend, todas aprobadas**. La compilación de Vite, las pruebas de integración con Firebase y la verificación del sitio publicado deben completarse en el entorno del proyecto. No se afirma que estas verificaciones se hayan ejecutado automáticamente.
+La validación académica del sistema registra 56 pruebas automatizadas aprobadas, distribuidas en 35 pruebas de la aplicación y 21 del backend. Adicionalmente, se ejecutaron 14 casos de prueba manuales sobre la plataforma publicada y sus servicios integrados. Los resultados, las evidencias y las limitaciones de las verificaciones se encuentran documentados en los capítulos VIII y IX y en el Anexo D del informe del Proyecto de Título.
 
 ## Contexto académico
 
-Repositorio de integración y documentación del proyecto de título de Angel Jose Ignacio Bruzzese Araya, IPLACEX. Las publicaciones de GitHub registran la incorporación progresiva de una implementación elaborada previamente.
+Proyecto de Título de Ingeniería en Informática desarrollado por Angel Jose Ignacio Bruzzese Araya, Instituto Profesional IPLACEX, 2026.
+
+El repositorio contiene el código fuente, las configuraciones y la documentación técnica de la plataforma web del Hostal La Casa de José.

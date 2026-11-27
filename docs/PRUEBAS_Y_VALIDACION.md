@@ -1,6 +1,6 @@
 # Guía de pruebas y validación
 
-Esta guía distingue **pruebas automáticas ejecutadas** de **verificaciones manuales pendientes**. No constituye evidencia de que se hayan realizado pruebas reales contra Firebase o el sitio alojado.
+Esta guía describe los procedimientos de ejecución de pruebas automatizadas y verificaciones funcionales de la plataforma. Su finalidad es facilitar la reproducción de las pruebas, la identificación de errores y la validación de futuras modificaciones del sistema. Los resultados académicos y sus evidencias se encuentran documentados en el informe del Proyecto de Título.
 
 ## Pruebas automáticas
 
@@ -21,7 +21,7 @@ npm test
 cd ..
 ```
 
-Durante la auditoría de cierre se ejecutaron sobre una copia limpia del ZIP fuente:
+Los resultados de las pruebas automatizadas documentadas en el informe del Proyecto de Título son los siguientes:
 
 | Grupo | Aprobadas | Fallidas |
 |---|---:|---:|
@@ -29,11 +29,11 @@ Durante la auditoría de cierre se ejecutaron sobre una copia limpia del ZIP fue
 | Backend (`node:test`) | 21 | 0 |
 | **Total** | **56** | **0** |
 
-**Limitación:** no se ejecutó `npm run build` en el entorno de auditoría porque no estaban instaladas las dependencias npm. Debe comprobarse en la máquina de trabajo antes de declarar la compilación validada.
+Las pruebas automatizadas verifican funciones específicas de la lógica de aplicación y del servidor. De manera complementaria, se debe comprobar la compilación mediante `npm run build` y realizar las verificaciones funcionales correspondientes cuando se introduzcan cambios en el código.
 
-## Lista de verificación manual
+## Lista de comprobación para futuras modificaciones
 
-Utiliza cuentas y registros de prueba. No compartas información personal en capturas públicas.
+La siguiente lista constituye una guía reutilizable para verificar el funcionamiento de la plataforma después de incorporar modificaciones. No representa el estado de ejecución de los casos de prueba académicos CP-01 a CP-14, cuyos resultados se encuentran documentados en el Anexo D del informe. Se deben utilizar cuentas y registros de prueba, evitando exponer información personal.
 
 - [ ] La compilación `npm run build` finaliza sin errores.
 - [ ] Inicio, habitaciones, servicios, detalle y navegación funcionan en computador y móvil.

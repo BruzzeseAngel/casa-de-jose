@@ -48,7 +48,7 @@ Las fotografías de habitaciones, servicios y portada se almacenan en Firebase S
 
 ## Módulos de administración
 
-El panel integrado **`src/pages/Admin.jsx`** contiene las secciones de habitaciones, tarifas, solicitudes, servicios y portada. El proyecto no utiliza el panel experimental `AdminRooms.jsx` ni la ruta `/administracion` de etapas antiguas.
+El panel administrativo se encuentra implementado en `src/pages/Admin.jsx` y es accesible mediante la ruta `/admin` para los usuarios autorizados. Contiene las secciones de gestión de habitaciones, tarifas, solicitudes, servicios y configuración de portada, centralizando las principales operaciones administrativas del establecimiento.
 
 La eliminación de habitaciones se implementa como **baja lógica** (`activa=false`). La gestión de servicios tiene operaciones propias según `src/lib/data.js`, incluida la eliminación definitiva. Las solicitudes se archivan mediante estado en lugar de desaparecer físicamente, y los cambios administrativos relevantes guardan historial.
 

@@ -32,7 +32,7 @@ Sin `.env` o con `VITE_DEMO_MODE=true`, la aplicación funciona en demostración
 
 ## Destino de Hosting que requiere verificación
 
-Los archivos del ZIP fuente asocian el destino lógico `principal` con el sitio `hostal-la-casa-de-jose`. Ese nombre no es el mismo que la URL de pruebas `casa-de-jose-pruebas.web.app` utilizada durante el desarrollo.
+La configuración de Firebase establece el destino lógico `principal` de Hosting asociado al sitio `hostal-la-casa-de-jose`. El proyecto Firebase se identifica como `casa-de-jose-pruebas`. Antes de realizar un despliegue, se debe verificar la correspondencia entre el proyecto seleccionado, el destino configurado y el sitio web que se pretende actualizar.
 
 Puedes revisar sin desplegar:
 
@@ -42,13 +42,13 @@ Get-Content .firebaserc
 Get-Content firebase.json
 ```
 
-**No ejecutes `firebase deploy`, `npm run seed` ni `npm run admin` como parte de este parche documental.** Los scripts de carga y promoción administrativa requieren preparación y podrían cambiar datos o permisos reales. Si en el futuro necesitas publicar desde este repositorio, primero acuerda el sitio, compara configuraciones y realiza una prueba controlada.
+**Precaución:** los comandos `firebase deploy`, `npm run seed` y `npm run admin` pueden modificar el entorno desplegado, los datos almacenados o los permisos de usuario. Su ejecución requiere verificar previamente la configuración del proyecto, el entorno de destino y las autorizaciones correspondientes.
 
 ## Acceso y datos personales
 
 - La cuenta cliente solo debe leer sus propias solicitudes.
 - La administración requiere permisos `admin` confiables en Firebase; ocultar botones en React no asegura los datos.
-- Las solicitudes y tarifas se escriben desde Cloud Functions según las reglas originales.
+- Las operaciones protegidas de creación y actualización de solicitudes y tarifas se gestionan mediante Cloud Functions, aplicando las validaciones y los controles de autorización correspondientes.
 - Los comentarios del huésped se limitan a 500 caracteres y se muestran como texto, distintos de las observaciones administrativas.
 - No publiques capturas que revelen nombres, correos, teléfonos, tokens de sesión ni documentos privados.
 

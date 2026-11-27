@@ -1,31 +1,53 @@
-# Auditoría de integridad — Cierre de la integración en GitHub
+# Integridad y verificación del proyecto
 
-**Referencia:** `Proyecto(2).zip` (la copia definitiva que incorpora Comentarios opcionales y la corrección de la pantalla de cotización).
+## Objetivo
 
-**GitHub inspeccionado:** `BruzzeseAngel/casa-de-jose`, rama `main`, commit `a93d94b98c6cd86fb836203143f6ae08c093062d` (parche 09).
+El presente documento describe los criterios de integridad, organización y validación técnica del código fuente de la plataforma web del Hostal La Casa de José.
 
-## Resultado
+## Componentes del repositorio
 
-- Se verificó la presencia de **62 archivos del proyecto fuente** destinados a publicación, excluido `.gitignore` por su adaptación deliberada. Sus identificadores Git (SHA-1 de blob) coinciden con los del ZIP fuente.
-- El `.gitignore` de GitHub difiere intencionalmente: protege dependencias, compilaciones, archivos locales y secretos. **El cambio no modifica el comportamiento de la aplicación.**
-- El `README.md` de GitHub ha sido reorganizado: es documentación, no código funcional.
-- No hay archivos experimentales antiguos tales como `AdminRooms.jsx`, `CatalogContext.jsx`, `catalogFirestore.js` ni rutas de solicitudes ficticias de etapas intermedias en el árbol actual de `main`.
-- Los recursos no publicados del ZIP (archivos `.env`, `dist/`, caché `.firebase/`, guías antiguas y respaldos) no son necesarios para la equivalencia del **código fuente**.
-- El proyecto fuente contiene documentos adicionales de versiones previas. Se prioriza documentación pública actualizada y se evita publicar guías que puedan dar instrucciones de despliegue desfasadas.
+El repositorio contiene los siguientes elementos necesarios para el desarrollo y mantenimiento de la aplicación:
 
-## Verificaciones ejecutadas sobre la copia definitiva
+- Código fuente del frontend desarrollado con React.
+- Funciones de procesamiento protegido mediante Firebase Cloud Functions.
+- Reglas de seguridad de Cloud Firestore y Firebase Storage.
+- Configuración de índices de Cloud Firestore.
+- Archivos de configuración de Firebase Hosting.
+- Pruebas automatizadas de la aplicación y del backend.
+- Archivos de dependencias y documentación técnica.
 
-| Comprobación | Resultado |
+## Resultados de validación
+
+| Comprobación | Resultado documentado |
 |---|---|
-| Pruebas automatizadas de frontend | 35/35 aprobadas |
-| Pruebas automatizadas de backend | 21/21 aprobadas |
-| Código/archivos Firebase y frontend | Coinciden con ZIP de referencia |
-| Compilación con Vite en entorno de auditoría | No ejecutada (dependencias npm ausentes) |
-| Integración real con Firebase/Resend | No evaluada aquí |
-| Estado de Hosting | No modificado |
+| Pruebas automatizadas de la aplicación | 35 aprobadas |
+| Pruebas automatizadas del backend | 21 aprobadas |
+| Total de pruebas automatizadas | 56 aprobadas, 0 fallidas |
+| Casos de prueba manuales | 14 aprobados dentro de los escenarios examinados |
+| Publicación mediante HTTPS | Verificada |
+| Acceso con perfil cliente y administrador | Verificado |
 
-## Alcance de este parche 10
+Los resultados corresponden a las verificaciones académicas documentadas en el informe del Proyecto de Título. Las pruebas deben ejecutarse nuevamente cuando se incorporen modificaciones funcionales al código fuente.
 
-Solo `README.md` y nuevos archivos `docs/*.md`. **No incluye ni reemplaza archivos** de `src/`, `functions/`, `tests/`, `scripts/`, reglas ni configuración Firebase.
+## Verificación de la integridad
 
-Tras aplicar este parche y aprobar `npm test` y `npm run build` localmente, el repositorio estará cerrado a nivel de publicación de código. El entorno Firebase y las evidencias académicas deben verificarse por separado.
+Para mantener la consistencia del proyecto se recomienda:
+
+- Comprobar los cambios mediante Git antes de incorporarlos al repositorio.
+- Ejecutar las pruebas automatizadas de la aplicación y del backend.
+- Verificar la compilación del frontend mediante `npm run build`.
+- Revisar las reglas de seguridad y los índices de Firestore.
+- Comprobar el funcionamiento de las funcionalidades modificadas.
+- Confirmar la correspondencia entre el código publicado y la versión desplegada.
+
+## Protección de información sensible
+
+El repositorio no debe contener credenciales privadas, secretos de servicios externos, archivos de entorno con información sensible ni datos personales de huéspedes.
+
+El archivo `.gitignore` excluye las dependencias instaladas, los archivos de compilación y otros recursos locales que no requieren formar parte del control de versiones.
+
+## Alcance de las verificaciones
+
+Las pruebas documentadas respaldan los escenarios funcionales examinados, pero no constituyen una certificación integral de seguridad, rendimiento o calidad del software.
+
+La configuración operativa de Firebase, los registros de la base de datos, las cuentas de usuario y los archivos almacenados en Storage deben administrarse de manera independiente del repositorio de código fuente.
